@@ -41,9 +41,9 @@ int main() {
 
 	//outputs (in TB)
 	//estimate, lower bound, upper bound
-	cout << setprecision(5) << num_electrons_est << endl;
-	cout << setprecision(5) << num_electrons_est_lower << endl;
-	cout << setprecision(5) << num_electrons_est_upper << endl;
+	cout << num_electrons_est << endl;
+	cout << num_electrons_est_lower << endl;
+	cout << num_electrons_est_upper << endl;
 
 return 0;
 }

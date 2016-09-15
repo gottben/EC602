@@ -6,6 +6,20 @@
 - Alex Bennett gottbenn@bu.edu
 - Cathryn Callahan cathcal@bu.edu
 
+## Part A testing
+w2a_earth.cpp:
+```
+2.21356e+38
+5.69202e+37
+7.23098e+38
+```
+w2a_earth.py:
+```
+2.213563920769652e+38
+5.692021510550535e+37
+7.230975474514197e+38
+```
+
 ## Part C testing
 Run command:
 ```
