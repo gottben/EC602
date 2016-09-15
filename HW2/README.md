@@ -19,6 +19,39 @@ w2a_earth.py:
 5.692021510550535e+37
 7.230975474514197e+38
 ```
+## Part B testing
+w2b_single_parts.cpp:
+```
+positive
+expo: 7d
+frac: 2aaaab
+0.333333 0.333333
+
+positive
+expo: 80
+frac: 0
+2 2
+
+positive
+expo: a0
+frac: 41b710
+1.3e+10 1.3e+10
+
+positive
+expo: a5
+frac: bb2c9
+3e+11 3e+11
+
+positive
+expo: 81
+frac: 400000
+6 6
+
+-0
+negative
+expo: 0
+frac: 0
+```
 
 ## Part C testing
 Run command:
