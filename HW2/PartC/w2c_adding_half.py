@@ -1,3 +1,10 @@
+# AUTHOR BrianAppleton appleton@bu.edu
+# AUTHOR AlexBennett gottbenn@bu.edu
+# AUTHOR CathrynCallahan cathcal@bu.edu
+# AUTHOR PreranaHaridoss preranah@bu.edu
+
+# git repository https://github.com/gottben/EC602
+
 # w2c_addinghalf.py
 
 from math import inf
@@ -57,7 +64,7 @@ def number_from_half(s : str):
 		
 
 	#This significand caluclation method follows from https://en.wikipedia.org/wiki/IEEE_754-1985
-	#It seems to match the result given by the significand calculation (1+ fraction / 2**10). Not sure I completely understand why.
+	#It seems to match the result given by the significand calculation (1+ fraction / 2**10).
 	#significand_2 = 0
 	#fraction_string = str(bin(fraction)[2:].zfill(10))
 	#for s in range(0,10):

@@ -1,4 +1,9 @@
 // AUTHOR BrianAppleton appleton@bu.edu
+// AUTHOR AlexBennett gottbenn@bu.edu
+// AUTHOR CathrynCallahan cathcal@bu.edu
+// AUTHOR PreranaHaridoss preranah@bu.edu
+
+// git repository https://github.com/gottben/EC602
 
 #include <iostream>
 #include <iomanip>
