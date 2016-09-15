@@ -41,7 +41,7 @@ def number_from_half(s : str):
 		#print("exponent is zero")		
 		sign_value  = (-1)**sign
 		significand = fraction / 2**10
-		exponent    = 2**(exponent-14)
+		exponent    = 2**(-14)
 		result      = sign_value * significand * exponent
 	
 	elif exponent == 0b11111:
