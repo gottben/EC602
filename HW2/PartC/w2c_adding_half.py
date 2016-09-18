@@ -10,7 +10,10 @@
 from math import inf
 
 def number_from_half(s : str):
-    	#return the number represented by s, a binary16 stored as a 4-character hex number
+	
+	s = int(s,16)    	
+	
+	#return the number represented by s, a binary16 stored as a 4-character hex number
 	MASK_SIGN     = 0x1   << 15 #sign occupies one bit
 	MASK_EXPONENT = 0x1F  << 10 #exponent occupies five bits
 	MASK_FRACTION = 0x3FF       #fraction occupies ten bits
@@ -84,7 +87,7 @@ def main():
 	sum = 0.0;	
 	while True:
 		try:
-			sum+=number_from_half(int(input(),16))	#this converts the input 
+			sum+=number_from_half(input())	#this converts the input 
 		except:
 			break
 	print(sum)
