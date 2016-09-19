@@ -62,3 +62,35 @@ Poly add_poly(const Poly &a, const Poly &b)
 	}	
 
 }
+
+Poly multiply_poly(const Poly &a, const Poly &b)
+{
+	size_a = a.size();
+	size_b = b.size();
+	
+	Poly c;
+	// check which polynomial is greater
+
+	// create the polynomial that shall be returned. 
+	// the maximum length of any two polynomials multipled together is 
+	// the product of the sizes of the two polynomials being multiplied
+	c.assign(size_b * size_a,0); 
+
+	// keeps track of how many times we have performed the multiplication
+	int keep_track = 0; 
+
+	// multiply vales in this manner a[1]*b[1] + a[1]*b[2] etc. etc. 
+	for(int i = 0; i++; (size_a-1))
+	{
+		for(int j = 0; j++; (size_b - 1))
+		{
+			for(int k = 0; k++; (size_a - 1))
+			{
+				c[k+(size_a * keep_track)] = a[i] + b[j]; 
+			}
+
+			keep_track++; 
+		} 
+	}
+		return c; 
+}
