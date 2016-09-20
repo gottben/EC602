@@ -16,7 +16,7 @@ Poly multiply_poly(const Poly &a,const Poly &b);
 Poly add_poly(const Poly &a,const Poly &b){
 	Poly result;
 	Poly number;
-	//checkw hich number is larger
+	//check which number is larger
 	if(a.size() > b.size()){
 		result = a;
 		number = b;

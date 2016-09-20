@@ -3,10 +3,9 @@
 using namespace std;
 
 #include "w3a_polyops.cpp"
-
+#include "w3b_bigint.cpp"
 void print_poly(Poly &a, char func);
 double evaluate_poly(Poly &a, int x);
-
 int main() {
 	//test program
 	
@@ -32,6 +31,10 @@ int main() {
 	Poly d = multiply_poly(a,b);
 	print_poly(d,'d');
 	cout << "d(10) = " << evaluate_poly(d,10) << endl;
+
+	//test multiplication for big int
+	//Poly e = multiply_int(x,y);
+	//cout << evaluate_poly(e,10) << endl;
 
 	return 0;
 }
