@@ -77,15 +77,13 @@ Poly multiply_poly(const Poly &a, const Poly &b)
 	c.assign((size_b + size_a)-1,0); 
 
 	// keeps track of how many times we have performed the multiplication
-	int keep_track = 0; 
-
 	// multiply vales in this manner a[1]*b[1] + a[1]*b[2] etc. etc. 
 	for(int i = 0; i < size_a ; i++)
 	{
 		for(int j = 0; j < size_b; j++)
 		{
-			c[j + keep_track] += a[i]*b[j];
-			cout << j+ keep_track << endl;
+			c[j + i] += a[i]*b[j];
+			//cout << j+ keep_track << endl;
 			// Wasn't sure what I was thinking here...
 			// Wrote this for loop under some poor assumptions
 			//for(int k = 0; k++; (size_a - 1))
@@ -95,7 +93,6 @@ Poly multiply_poly(const Poly &a, const Poly &b)
 			//}
 			//keep_track++; 
 		} 
-		keep_track++; 
 	}
 		return c; 
 }
