@@ -43,8 +43,8 @@ Poly multiply_poly(const Poly &a,const Poly &b) {
 	//for every element in a, multiply the coefficient with each term in b
 	//add the exponents for both terms and store in the appropriate position in the result vector
 
-	int i,j;
-	int coeff, exp;
+	int i,j,exp;
+	float coeff;
 
 	//initialize, clear, and size the result vector
 	Poly result;

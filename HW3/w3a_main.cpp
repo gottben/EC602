@@ -12,8 +12,8 @@ int main() {
 	
 	//polynomials used for testing
 	//zero-based index is the exponent for the term; the contents of the array at the respective index is the coefficient
-	Poly a = {1,2,3};
-	Poly b = {4,5,6,1,0};
+	Poly a = {-1,2.3,3.9};
+	Poly b = {4,5,-6,1,0.2};
 
 	//print polynomials	
 	print_poly(a,'a');
