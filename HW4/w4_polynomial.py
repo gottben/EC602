@@ -68,6 +68,10 @@ class Polynomial():
 		"""		
 		if coeff != 0:		
 			self.p_dict[exp] = coeff
+		else:
+			#delete the term if its coefficient is now zero
+			#__delitem__ handles cases where exp does not exist		
+			del self[exp]
 	def __len__(self):
 		"""
 		Required by mutable container protocol
@@ -88,7 +92,9 @@ class Polynomial():
 		"""
 		Required by mutable container protocol
 		"""
-		self.p_dict.pop(exp)
+		if exp in self.p_dict:
+			#only delete keys that exist
+			self.p_dict.pop(exp)
 	def __add__(self,p_add):
 		"""
 		Arguments are polynomials
@@ -101,10 +107,12 @@ class Polynomial():
 		#Loop through p_add and modify terms of p_result
 		for exp, coeff in p_add.p_dict.items():		
 			if exp in p_result.p_dict:
-				p_result.p_dict[exp] += coeff
+				p_result[exp] += coeff				
+				#This commented code does the same thing as the line above, thanks to the definition of __setitem__				
+				#p_result.p_dict[exp] += coeff
 				#Delete the term if its coefficient is now zero. Uses __delitem__.
-				if p_result.p_dict[exp] == 0:
-					del p_result[exp]
+				#if p_result.p_dict[exp] == 0:
+				#	del p_result[exp]
 			else:
 				p_result.p_dict[exp] = coeff	
 		return p_result
@@ -120,10 +128,12 @@ class Polynomial():
 		#Loop through p_sub and modify terms of p_result
 		for exp, coeff in p_sub.p_dict.items():		
 			if exp in p_result.p_dict:
-				p_result.p_dict[exp] -= coeff
+				p_result[exp] -= coeff
+				#This commented code does the same thing as the line above, thanks to the definition of __setitem__
+				#p_result.p_dict[exp] -= coeff			
 				#Delete the term if its coefficient is now zero. Uses __delitem__.
-				if p_result.p_dict[exp] == 0:
-					del p_result[exp]
+				#if p_result.p_dict[exp] == 0:
+				#	del p_result[exp]
 			else:
 				p_result.p_dict[exp] = -1*coeff	
 		return p_result
