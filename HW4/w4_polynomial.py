@@ -102,6 +102,9 @@ class Polynomial():
 		for exp, coeff in p_add.p_dict.items():		
 			if exp in p_result.p_dict:
 				p_result.p_dict[exp] += coeff
+				#Delete the term if its coefficient is now zero. Uses __delitem__.
+				if p_result.p_dict[exp] == 0:
+					del p_result[exp]
 			else:
 				p_result.p_dict[exp] = coeff	
 		return p_result
@@ -118,6 +121,9 @@ class Polynomial():
 		for exp, coeff in p_sub.p_dict.items():		
 			if exp in p_result.p_dict:
 				p_result.p_dict[exp] -= coeff
+				#Delete the term if its coefficient is now zero. Uses __delitem__.
+				if p_result.p_dict[exp] == 0:
+					del p_result[exp]
 			else:
 				p_result.p_dict[exp] = -1*coeff	
 		return p_result

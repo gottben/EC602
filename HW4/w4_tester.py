@@ -137,6 +137,30 @@ if repr(x.deriv()) == '{3: 12, -6: -10, -5: (-4-4j)}':
 else:
 	print("FAIL: deriv() is not functional or repr() is not defined as needed for this script.")
 
+'''
+Test whether subtraction returns a polynomial with a coefficient of zero
+'''
+if (Polynomial([6,0,0])==w-Polynomial([0,0,-3,2,0]))==True:
+	print("PASS: __sub__ clears terms with coefficients of zero")
+else:
+	print("FAIL: __sub__ retains terms with a coefficient of zero. Result of subtraction: ", repr(w-Polynomial([0,0,-3,2,0])))
+
+'''
+Test whether addition returns a polynomial with a coefficient of zero
+'''
+if (Polynomial([0,4,0])==w+Polynomial([0,0,-3,2,0]))==True:
+	print("PASS: __add__ clears terms with coefficients of zero")
+else:
+	print("FAIL: __add__ retains terms with a coefficient of zero. Result of addition: ", repr(w+Polynomial([0,0,-3,2,0])))
+
+
+'''
+Test whether deriv() returns a polynomial with a coefficient of zero
+'''
+if Polynomial([4,3,2]).deriv()==Polynomial([8,3]):
+	print("PASS: deriv() clears terms with coefficients of zero")
+else:
+	print("FAIL: deriv() retains terms with a coefficient of zero. Result of deriv(): ", repr(Polynomial([4,3,2]).deriv()))
 
 
 
