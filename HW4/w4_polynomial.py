@@ -94,12 +94,10 @@ class Polynomial():
 		Arguments are polynomials
 		Argument.p_dict gets the dictionary
 		"""		
-		#p_result = self
 		#Create a copy of self
 		p_result = Polynomial()
-		for exp, coeff in self.p_dict.items():
-			p_result[exp] = coeff
-		
+		p_result.p_dict = self.p_dict.copy()
+				
 		#Loop through p_add and modify terms of p_result
 		for exp, coeff in p_add.p_dict.items():		
 			if exp in p_result.p_dict:
@@ -112,11 +110,9 @@ class Polynomial():
 		Subtract p_sub from self and return result
 		Usage: -
 		"""
-		#p_result = self;
 		#Create a copy of self
 		p_result = Polynomial()
-		for exp, coeff in self.p_dict.items():
-			p_result[exp] = coeff
+		p_result.p_dict = self.p_dict.copy()
 		
 		#Loop through p_sub and modify terms of p_result
 		for exp, coeff in p_sub.p_dict.items():		
