@@ -11,9 +11,9 @@ from w4_polynomial import Polynomial
 [x] multiply polynomials using *. Make sure that the expression x*y doesn't change the values of x or y.
 [x] test for equality using ==
 [x] implement p.deriv() method
-[ ] ensure negative powers work
-[ ] ensure int, float, and complex coefficients work
-[ ] ensure int, float, and complex x works
+[x] ensure negative powers work
+[x] ensure int, float, and complex coefficients work
+[x] ensure int, float, and complex x works
 [x] make sure that polynomials are stored efficiently
 '''
 
@@ -49,8 +49,8 @@ if 'object' in repr(x):
 	print("WARNING: repr() function is not defined for Polynomial")
 if 'object' in str(x):
 	print("WARNING: str() function is not defined for Polynomial")
-'''
 
+'''
 Test initialization,  ==, and assignment
 '''
 if y == Polynomial([17.9, 0, 0, -1, 2.7, 10-3j]):
@@ -58,10 +58,17 @@ if y == Polynomial([17.9, 0, 0, -1, 2.7, 10-3j]):
 else:
 	print("FAIL: ", repr(Polynomial([17.9, 0, 0, -1, 2.7, 10-3j])), " does not match y = ", repr(y))
 
+'''
+Test not equal to
+'''
+if (y == Polynomial([17.9, 0, 0, -1, 2.8, 10-3j])) == False:
+	print("PASS: __eq__ not equals is functional")
+else:
+	print("FAIL: __eq__ not equals is not functional")
+
 
 '''
 Make sure all Polynomial methods except __setitem__ do not modify input args. Use z as test case
-
 '''
 
 junk = z+w
