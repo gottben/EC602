@@ -1,4 +1,7 @@
 # AUTHOR BrianAppleton appleton@bu.edu
+# AUTHOR AlexBennett gottbenn@bu.edu
+# AUTHOR CathrynCallahan cathcal@bu.edu
+# AUTHOR PreranaHaridoss preranah@bu.edu
 
 '''
 PYTHON POLYNOMIAL CLASS
@@ -13,9 +16,9 @@ PYTHON POLYNOMIAL CLASS
 [x] multiply polynomials using *. Make sure that the expression x*y doesn't change the values of x or y.
 [x] test for equality using ==
 [x] implement p.deriv() method
-[ ] ensure negative powers work
-[ ] ensure int, float, and complex coefficients work
-[ ] ensure int, float, and complex x works
+[x] ensure negative powers work
+[x] ensure int, float, and complex coefficients work
+[x] ensure int, float, and complex x works
 [x] make sure that polynomials are stored efficiently
 
 
@@ -43,8 +46,6 @@ class Polynomial():
 		for exp, coeff in self.p_dict.items():
 			result += coeff*x**exp
 		return result
-		
-	
 	def __str__(self):
 		"""
 		Return nicely-formatted string showing polynomial
@@ -54,14 +55,11 @@ class Polynomial():
 		for exp, coeff in self.p_dict.items():
 			result += "(" + str(coeff) + ")" + "x^" + str(exp) + " + "
 		return result[0:len(result)-2]	
-	
 	def __repr__(self):
 		"""
 		Return dictionary representation of polynomial
 		"""
 		return(str(self.p_dict))
-	
-			
 	def __setitem__(self, exp, coeff):
 		"""
 		Required by mutable container protocol
@@ -109,11 +107,6 @@ class Polynomial():
 			else:
 				p_result.p_dict[exp] = coeff	
 		return p_result
-	def __radd__(self,p):
-		"""
-		Is this needed?
-		"""		
-		pass
 	def __sub__(self,p_sub):
 		"""
 		Subtract p_sub from self and return result
@@ -184,6 +177,5 @@ def main():
 
 	"""
     
-
 if __name__=="__main__":
     main()
