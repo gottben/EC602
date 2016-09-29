@@ -64,8 +64,8 @@ Make sure all Polynomial methods except __setitem__ do not modify input args. Us
 
 '''
 
-junk = z-w
-junk = w-z
+junk = z+w
+junk = w+z
 junk = z*w
 junk = w*z
 junk = z.eval(3)
