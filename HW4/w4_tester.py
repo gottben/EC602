@@ -51,12 +51,38 @@ if 'object' in str(x):
 	print("WARNING: str() function is not defined for Polynomial")
 
 '''
+Make sure == does not simply evaluate the polynomial at some fixed number
+For unknown x, the only way to be sure that two polynomials are equal is if ALL coefficients and respective exponents are the same
+The following code will catch, for example, instances where Polynomial([1,0]) and Polynomial([0,10]) are said to be equal.
+    With base 10, they will evaluate to be equal, but they are not equal for all bases.
+'''
+test_result_pass = True
+
+for i in range(1,100):
+	for j in range(1,100):
+		if Polynomial([j,0])==Polynomial([0,i]):
+			test_result_pass = False
+
+if test_result_pass:
+	print("PASS: __eq__ method appears to compare coefficients of terms")
+else:
+	print("FAIL: __eq__ method appears to rely on the eval() method")
+
+'''
 Test initialization,  ==, and assignment
 '''
 if y == Polynomial([17.9, 0, 0, -1, 2.7, 10-3j]):
 	print("PASS: __init__, __eq__, and __setitem__ are functional")
 else:
 	print("FAIL: ", repr(Polynomial([17.9, 0, 0, -1, 2.7, 10-3j])), " does not match y = ", repr(y))
+
+'''
+Test whether Polynomial is stored efficiently
+'''
+if Polynomial([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])==Polynomial([1]):
+	print("PASS: efficient polynomial storage is utilized")
+else:
+	print("FAIL: efficient polynomial storage is not utilized")
 
 '''
 Test not equal to
@@ -162,6 +188,16 @@ if Polynomial([4,3,2]).deriv()==Polynomial([8,3]):
 else:
 	print("FAIL: deriv() retains terms with a coefficient of zero. Result of deriv(): ", repr(Polynomial([4,3,2]).deriv()))
 
+
+'''
+Test whether setting coefficient of zero deletes the term
+y[5]=0 should delete the term, not simply set its coefficient to zero
+'''
+y[5] = 0
+if y == Polynomial([0,0,0,-1,2.7,10-3j]):
+	print("PASS: set[y] = 0 deletes term x^y")
+else:
+	print("FAIL: set[y] = 0 does not delete the term x^y")
 
 
 
