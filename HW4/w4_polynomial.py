@@ -1,3 +1,10 @@
+#AUTHOR Brian Appleton appleton@bu.edu
+#AUTHOR Alex Bennett gottbenn@bu.edu
+#AUTHOR Cathryn Callahan cathcal@bu.edu
+#AUTHOR Prerana Haridoss preranah@bu.edu
+
+
+
 class Polynomial():
 	"Polynomial(coeff, key(exp)) -> a polynomial array"
 
