@@ -17,6 +17,7 @@ from w4_polynomial_2 import Polynomial
 [x] make sure that polynomials are stored efficiently
 '''
 
+<<<<<<< HEAD
 '''
 NOTE: This testing code requires that __repr__ is defined as follows in the Polynomial class:
 	def __repr__(self):
@@ -25,8 +26,13 @@ NOTE: This testing code requires that __repr__ is defined as follows in the Poly
 		"""
 		return(str(self.p_dict))
 '''
+=======
+import math 
+>>>>>>> d1bb1cb39e0ea5a47935500595f9b8c7e38e8373
 
+positive = 0 
 
+<<<<<<< HEAD
 '''
 Set up test Polynomials
 Dictionary contents retreived with repr():
@@ -62,6 +68,59 @@ The following code will catch, for example, instances where Polynomial([1,0]) an
     With base 10, they will evaluate to be equal, but they are not equal for all bases.
 '''
 test_result_pass = True
+=======
+def number_from_half(s : str):
+    """return the number represented by s, a binary16 stored as a 4-character hex number"""
+    
+    bin_string = bin(s)
+
+    sign_mask = 0x1 << 15
+    expo_mask = 0x1f << 10
+
+
+    sign = (s & sign_mask) >> 15
+    expo = (s & expo_mask) >> 10
+    frac = s & (2**10 - 1)
+
+    #print(sign)
+
+    significant_bit = frac & 1 
+    if(expo == 0): 
+    	if (frac == 0):
+    		#print('help')
+    		return -0.0 if sign else 0.0
+    	else:
+    		#print('help1')
+    		#print((-1)**sign)
+    		#print((-1**sign)* frac / 2**10 * 2**-14)
+    		return ((-1)**sign)* frac / 2**10 * 2**-14
+    elif(expo == 0x1f):
+    	if(frac == 0):
+    		#print('help2')
+    		return float('-inf') if sign else float('inf')
+    	else:
+    		#print('help3')
+    		return float('nan') 
+   # print((-1**sign) * 2**(expo - 15) * (1 + frac/2**10))
+    return ((-1)**sign) * 2**(expo - 15) * (1 + frac/2**10)
+
+def main():
+    """add all binary16 numbers from standard input until a non-number is entered, then print the total.
+    Numbers are represented in 4-character hex string format, one per line"""
+    summation = 0
+    while 1:
+    	try:
+    		#if math.isnan(summation += number_from_half(int(input(),16))):
+
+    		#print(summation)
+    		summation += number_from_half(int(input(),16))
+    		#print(summation)
+    	except:
+    		print(summation)
+    		return summation
+   
+
+>>>>>>> d1bb1cb39e0ea5a47935500595f9b8c7e38e8373
 
 for i in range(1,100):
 	for j in range(1,100):
