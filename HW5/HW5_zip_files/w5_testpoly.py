@@ -98,10 +98,10 @@ class PolynomialTestCase(unittest.TestCase):
                 self.assertEqual(1,0)
         else:
             self.assertEqual(1,0)
-        Poly36_is_wrong    = Polynomial([10,9,8,7])
-        Poly36_is_SO_WRONG = Polynomial([11,10,9,8,7])
-        self.assertNotEqual(Poly36_is_wrong, Poly36_is_SO_WRONG)
-        self.assertNotEqual(Poly36_is_SO_WRONG,Poly36_is_wrong)
+        Poly1    = Polynomial([10,9,8,7])
+        Poly2 = Polynomial([11,10,9,8,7])
+        self.assertNotEqual(Poly1, Poly2)
+        self.assertNotEqual(Poly2,Poly1)
   
     def test_sparse(self):
         #test to see if they handle zeros
@@ -134,6 +134,8 @@ class PolynomialTestCase(unittest.TestCase):
         self.assertEqual(a.eval(10),123129.05)
 
     def test_init(self):
+        #test to see if the polynomial was initialized correctly and if the 
+        #correct number of input arguments were used
         self.assertIsInstance(self.x,Polynomial)
 
         try:
@@ -144,6 +146,7 @@ class PolynomialTestCase(unittest.TestCase):
                 raise Exception('Too many input arguments')
 
     def test_is_boolean(self):
+        #check to see if the polynomial returns a boolean
         poly = Polynomial([])
         self.assertNotIsInstance(poly[1],bool)
 
