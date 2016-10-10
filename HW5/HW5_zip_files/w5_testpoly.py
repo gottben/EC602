@@ -1,9 +1,12 @@
+# AUTHOR Brian Appleton appleton@bu.edu
 # AUTHOR Alex Bennett gottbenn@bu.edu
+# AUTHOR Cathryn Callahan cathcal@bu.edu
+
 
 import unittest
 import sys
 
-authors=['gottbenn@bu.edu']
+authors=['appleton@bu.edu', 'gottbenn@bu.edu', 'cathcal@bu.edu']
 
 class PolynomialTestCase(unittest.TestCase):
     """unit testing for polynomials"""

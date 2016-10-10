@@ -1,13 +1,15 @@
 {
+    "authors": [
+        "appleton@bu.edu",
+        "gottbenn@bu.edu",
+        "cathcal@bu.edu"
+    ],
     "passed": [
         "poly63.py",
         "poly62.py",
         "poly77.py",
         "poly27.py",
         "poly97.py"
-    ],
-    "authors": [
-        "gottbenn@bu.edu"
     ],
     "failed": [
         "poly3.py",
