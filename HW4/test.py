@@ -1,4 +1,4 @@
-from w4_polynomial import Polynomial
+from w4_polynomial_2 import Polynomial
 
 '''
 ---- Functionality checklist ----

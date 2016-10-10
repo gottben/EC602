@@ -8,6 +8,9 @@ G = Polynomial([8,3])
 
 F.deriv()
 
+C = A + F
+print(C.poly,A.poly,F.poly)
+
 print("F.poly=",F.poly)
 print("F.expon=",F.expon)
 print("G.poly=",G.poly)
