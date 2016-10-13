@@ -1,4 +1,4 @@
-#AUTHOR BrianAppleton appleton@bu.edu
+# AUTHOR BrianAppleton appleton@bu.edu
 
 import unittest
 from random import random

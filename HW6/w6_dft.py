@@ -1,4 +1,4 @@
-#AUTHOR BrianAppleton appleton@bu.edu
+# AUTHOR BrianAppleton appleton@bu.edu
 
 from numpy import zeros,exp,array,pi
 
