@@ -64,10 +64,7 @@ class DFTTestCase(unittest.TestCase):
 		for test_case,err_msg in [[w,w_msg],[x,x_msg],[y,y_msg],[z,z_msg]]:
 			error_occurred = False	
 			try:		
-				DFT(w)
-				DFT(x)
-				DFT(y)
-				DFT(z)
+				DFT(test_case)
 			except Exception as e:
 				error_occurred = True			
 				#did you give me a ValueError? If not, your program is wrong.			
