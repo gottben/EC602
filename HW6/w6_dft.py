@@ -4,7 +4,6 @@ from numpy import zeros,exp,array,pi
 
 
 def DFT(x):	
-	encountered_error = False
 	try:
 		N = len(x)	
 		X = zeros(N, dtype="complex")	
