@@ -83,6 +83,10 @@ def plot_rand(x):
 	Note that <#from matplotlib import pyplot as plt> as well as <plot_rand(x)>, in test_random_x(self), must be uncommented.
 	'''	
 	plt.scatter(array(x).real, array(x).imag)
+	plt.suptitle("Randomly-generated complex input for DFT")
+	plt.xlabel("Re(x)")
+	plt.ylabel("Im(x)")
+	plt.grid(True)
 	plt.show()
 	
 if __name__ == '__main__':
