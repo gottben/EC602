@@ -1,19 +1,21 @@
+#AUTHOR BrianAppleton appleton@bu.edu
+
 from numpy import zeros,exp,array,pi
 
 
 def DFT(x):	
-	
+	encountered_error = False
 	try:
 		N = len(x)	
-		X = zeros(N, dtype="complex")		
+		X = zeros(N, dtype="complex")	
 		#compute the DFT of x and store it in X
 		for k in range(0,N):
 			#for each element in X, perform the DFT summation
-			for n,x_n in enumerate(x):				
+			for n,x_n in enumerate(x):								
 				X[k]+=x_n*exp(-2j*pi*n*k/N)
 		return X
 	except:
-		raise ValueError("You broke me!")
+		raise ValueError("Invalid input encountered")		
 
 def main():
 	x = array([1,2,3])
