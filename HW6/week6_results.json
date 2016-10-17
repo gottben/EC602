@@ -1,0 +1,11 @@
+{
+    "failed": [],
+    "authors": [
+        "appleton@bu.edu",
+        "gottbenn@bu.edu",
+        "cathcal@bu.edu"
+    ],
+    "passed": [
+        "w6_dft.py"
+    ]
+}
