@@ -32,7 +32,7 @@ class DFTTestCase(unittest.TestCase):
 	def test_dft_return(self):
 		'''
 		Make sure that the value returned from DFT() is a numpy.ndarray, of length N, and of shape (N,)
-		Test this for a list and a bytearray
+		Test this for a list and a bytearray; tuples and numpy.array tests might be added in the future. Together these constitute the list of valid inputs.
 		'''		
 		
 		x = [1,2,3,4,0,5,0]
@@ -47,7 +47,7 @@ class DFTTestCase(unittest.TestCase):
 
 		#make sure you give me an ndarray of the proper shape and length
 		self.assertIsInstance(Y, ndarray, msg='You did not return a numpy.ndarray')
-		self.assertEqual(Y.shape,(len(y),), msg = 'You must return a one-dimensional array of the same length as the input')		
+		self.assertEqual(Y.shape,(len(y),), msg = 'You must return a one-dimensional array of the same length as the input')	
 			
 		
 	def test_dft_error_hnd(self):
@@ -76,9 +76,9 @@ class DFTTestCase(unittest.TestCase):
 		z_msg = 'You need to throw an error for multidimensional arrays'
 		v_msg = 'You need to throw an error for dictionaries'
 		u_msg = 'You need to throw an error for a string'
-		t_msg = ' '
-		s_msg = ' '
-		r_msg = ' '
+		t_msg = 'You need to throw an error for an integer'
+		s_msg = 'You need to throw an error for None'
+		r_msg = 'You need to throw an error for a boolean'
 
 		#examine errors that are thrown
 		for test_case,err_msg in [[w,w_msg],[x,x_msg],[y,y_msg],[z,z_msg],[v,v_msg],[u,u_msg],[t,t_msg],[s,s_msg],[r,r_msg]]:

@@ -29,7 +29,6 @@ def main():
 	print("X1: ", X)
 
 
-	
 
 if __name__=="__main__":
 	main()
