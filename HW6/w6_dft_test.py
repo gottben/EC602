@@ -3,7 +3,6 @@
 import unittest
 from random import random
 from numpy import fft,testing,array,ndarray
-from w6_dft import DFT
 #from matplotlib import pyplot as plt
 
 class DFTTestCase(unittest.TestCase):
@@ -33,6 +32,7 @@ class DFTTestCase(unittest.TestCase):
 	def test_dft_return(self):
 		'''
 		Make sure that the value returned from DFT() is a numpy.ndarray, of length N, and of shape (N,)
+		Test this for a list and a bytearray
 		'''		
 		
 		x = [1,2,3,4,0,5,0]
@@ -40,7 +40,15 @@ class DFTTestCase(unittest.TestCase):
 
 		#make sure you give me an ndarray of the proper shape and length
 		self.assertIsInstance(X, ndarray, msg='You did not return a numpy.ndarray')
-		self.assertEqual(X.shape,(len(x),), msg = 'You must return a one-dimensional array of the same length as the input')		
+		self.assertEqual(X.shape,(len(x),), msg = 'You must return a one-dimensional array of the same length as the input')
+
+		y = bytearray([1,2,3,4,0,5,0])
+		Y = DFT(y)
+
+		#make sure you give me an ndarray of the proper shape and length
+		self.assertIsInstance(Y, ndarray, msg='You did not return a numpy.ndarray')
+		self.assertEqual(Y.shape,(len(y),), msg = 'You must return a one-dimensional array of the same length as the input')		
+			
 		
 	def test_dft_error_hnd(self):
 		'''
@@ -48,8 +56,15 @@ class DFTTestCase(unittest.TestCase):
 		Also make sure we catch case where no error occurs in DFT() for an invalid input
 		This test includes invalid test cases of type list, tuple, and ndarray
 		'''		
-	
+		
+		#self.assertRaises(ValueError, DFT(None))		
+
 		#create some invalid input test cases		
+		r = True		
+		s = None
+		t = 1	
+		u = "fail"		
+		v = {1:4,6:7}		
 		w = ["1","2","3"]
 		x = ("1", 2, 3)
 		y = array(["1","2","3"])
@@ -59,9 +74,14 @@ class DFTTestCase(unittest.TestCase):
 		x_msg = 'You need to throw an error for tuples containing a string'
 		y_msg = 'You need to throw an error for ndarrays containing a string'
 		z_msg = 'You need to throw an error for multidimensional arrays'
+		v_msg = 'You need to throw an error for dictionaries'
+		u_msg = 'You need to throw an error for a string'
+		t_msg = ' '
+		s_msg = ' '
+		r_msg = ' '
 
 		#examine errors that are thrown
-		for test_case,err_msg in [[w,w_msg],[x,x_msg],[y,y_msg],[z,z_msg]]:
+		for test_case,err_msg in [[w,w_msg],[x,x_msg],[y,y_msg],[z,z_msg],[v,v_msg],[u,u_msg],[t,t_msg],[s,s_msg],[r,r_msg]]:
 			error_occurred = False	
 			try:		
 				DFT(test_case)
@@ -73,6 +93,7 @@ class DFTTestCase(unittest.TestCase):
 				#if your program didn't throw an error AT ALL for invalid input, it's wrong.
 				self.assertEqual(error_occurred, True, msg=err_msg)	
 
+	
 	def tearDown(self):
 		pass
 
@@ -90,4 +111,5 @@ def plot_rand(x):
 	plt.show()
 	
 if __name__ == '__main__':
+	from w6_dft import DFT
 	unittest.main()
