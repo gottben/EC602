@@ -1,4 +1,6 @@
-# AUTHOR BrianAppleton appleton@bu.edu
+# AUTHOR Brian Appleton appleton@bu.edu
+# AUTHOR Alex Bennett gottbenn@bu.edu
+# AUTHOR Cathryn Callahan cathcal@bu.edu
 
 from numpy import zeros,exp,array,pi
 
