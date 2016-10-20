@@ -13,9 +13,9 @@ def dialer(file_name,frame_rate,phone,tone_time):
 
 	for c in phone:
 		freq = dial_tones[c]
-	#freq = dial_tones['1']
 		for i in range(0,total_samples):
-			tones += [np.cos(2*np.pi*(i/frame_rate)*freq[0]) + np.cos(2*np.pi*(i/frame_rate)*freq[1])]
+			sound = np.cos(2*np.pi*(i/frame_rate)*freq[0]) + np.cos(2*np.pi*(i/frame_rate)*freq[1])
+			tones += [sound]
 
 	tone = np.array(tones)
 	print(tone)
