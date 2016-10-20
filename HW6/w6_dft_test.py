@@ -43,7 +43,6 @@ class DFTTestCase(unittest.TestCase):
 
 
     def test_np_fft_fft(self):
-        length = 20
         for i in range(2,20):
             for j in range(0,10):
                 a = []
