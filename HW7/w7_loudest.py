@@ -41,13 +41,15 @@ def loudest_band(music,frame_rate,bandwidth):
 	power = []
 
 	for i in range(0,difference_between):
-		#iterate through each element in the array and do a point wise multiplication of the music freq array with the bandpass filter.
+		#iterate through each element in the array and do a point wise multiplication of the music analysis array with the bandpass filter.
 		bandpass_filter = np.append(np.ones(bandwidth),np.zeros(difference_between-i))
 		bp2 = np.append(np.zeros(i),bandpass_filter)
 		filt_music = np.multiply(music_analysis,bp2)
 		signal = np.square(np.absolute(filt_music))
-		low_freq += [(i-1)]
-		high_freq += [(i-1+bandwidth)]
+
+		# save the information of the different elements in these arrays. 
+		low_freq += [(i)]
+		high_freq += [(i+bandwidth)]
 		power += [(sum(signal))]
 
 
@@ -76,10 +78,11 @@ def loudest_band(music,frame_rate,bandwidth):
 	filt_music = np.multiply(music_freq,final_bp)
 	time_music = np.fft.ifft(np.fft.ifftshift(filt_music))
 
-	result = (low_freq[max_index]+1,high_freq[max_index]+1,time_music.real)
+	result = (low_freq[max_index],high_freq[max_index],time_music.real)
 	# #print(result)
 
 	return(result) 
+
 
 def match(w,ref):
     "return the relative similarity of w and ref"
