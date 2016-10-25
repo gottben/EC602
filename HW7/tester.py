@@ -10,20 +10,20 @@ import scipy.io.wavfile as wavfile
 from w7_loudest import loudest_band
 import time
 
-# def read_wave(fname,debug=False):
-#     frame_rate,music = wavfile.read(fname)
-#     if debug:
-#         print(frame_rate,type(music),music.shape,music.ndim)
-#     if music.ndim>1:
-#         nframes,nchannels = music.shape
-#     else:
-#         nchannels = 1
-#         nframes = music.shape[0]    
-#     return music,frame_rate,nframes,nchannels
+def read_wave(fname,debug=False):
+    frame_rate,music = wavfile.read(fname)
+    if debug:
+        print(frame_rate,type(music),music.shape,music.ndim)
+    if music.ndim>1:
+        nframes,nchannels = music.shape
+    else:
+        nchannels = 1
+        nframes = music.shape[0]    
+    return music,frame_rate,nframes,nchannels
 
-# music,frame_rate,nframes,nchannels = read_wave("bach10sec.wav")
-# if nchannels > 1:
-#     music = music.sum(axis=1)
+music,frame_rate,nframes,nchannels = read_wave("bach10sec.wav")
+if nchannels > 1:
+    music = music.sum(axis=1)
 
 def match(w,ref):
     "return the relative similarity of w and ref"
@@ -76,17 +76,17 @@ class loudestTestCase(unittest.TestCase):
         self.assertLess(match(filtered,m),0.1,msg="filtered signal incorrect")
 
 
-# class loudest_efficiency_TestCase(unittest.TestCase):
-#     def test_bach(self):
-#         start = time.time()
-#         low,high,filtered = loudest_band(music,frame_rate,75)
-#         duration = time.time() - start
-#         if duration > 1.0:
-#                 print("WARNING: my analysis of bach10sec takes 0.3 s, yours took {:.3f} s".format(duration))
-#                 print('the actual checker will fail you on this test. Passing this is extra credit.')
-#         self.assertEqual(music.shape,filtered.shape)        
-#         self.assertAlmostEqual(low/823.5,1.0,2)
-#         self.assertAlmostEqual(high/898.3,1.0,2)
+class loudest_efficiency_TestCase(unittest.TestCase):
+    def test_bach(self):
+        start = time.time()
+        low,high,filtered = loudest_band(music,frame_rate,75)
+        duration = time.time() - start
+        if duration > 1.0:
+                print("WARNING: my analysis of bach10sec takes 0.3 s, yours took {:.3f} s".format(duration))
+                print('the actual checker will fail you on this test. Passing this is extra credit.')
+        self.assertEqual(music.shape,filtered.shape)        
+        self.assertAlmostEqual(low/823.5,1.0,2)
+        self.assertAlmostEqual(high/898.3,1.0,2)
     
 if __name__ == '__main__':
     unittest.main()
