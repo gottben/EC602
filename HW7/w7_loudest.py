@@ -15,7 +15,7 @@ def loudest_band(music,frame_rate,bandwidth):
 	#frequency is in the center
 	music_freq = np.fft.fftshift(np.fft.fft(music))
 	freq_steps = frame_rate/len(music)
-	print(frame_rate,len(music),freq_steps)
+	#print(frame_rate,len(music),freq_steps)
 
 	# pyplot.plot(music_freq)
 	# pyplot.show()
@@ -31,8 +31,6 @@ def loudest_band(music,frame_rate,bandwidth):
 	# pyplot.plot(music_analysis)
 	# pyplot.show()
 
-	#get the difference between the music and the size of the bandwidth
-	difference_between = len(music_analysis) - bandwidth
 	# pyplot.plot(music_freq)
 	# pyplot.show()
 
@@ -46,14 +44,25 @@ def loudest_band(music,frame_rate,bandwidth):
 	# pyplot.plot(signal)
 	# pyplot.show()
 
-	signal_low_pass = sum(signal[0:bandwidth])
+
+
+	#bandwidth size in freq steps
+	b_size = int(bandwidth/freq_steps)
+
+	#print(b_size)
+
+	#first filter 
+	signal_low_pass = sum(signal[0:b_size])
+
+	#get the difference between the music and the size of the bandwidth
+	difference_between = len(music_analysis) - b_size
 
 
 	for i in range(0,difference_between):
 		# save the information of the different elements in these arrays. 
-		low_freq += [i]
-		high_freq += [i+bandwidth]
-		power += [sum(signal[i:i+bandwidth])]
+		# power += [sum(signal[i:i+b_size-1])]
+		power += [signal_low_pass + signal[i+b_size-1] - signal[i-1]]
+
 
 
 	pyplot.plot(power)
@@ -61,7 +70,7 @@ def loudest_band(music,frame_rate,bandwidth):
 
 
 	max_index = np.argmax(power) 
-	# print(max_index)
+	print(max_index)
 	if max_index != 0: 	
 		#create the bandpass filter for the negative frequencies
 		first_bp = np.append(np.ones(bandwidth+1),np.zeros(max_index-1))
@@ -82,7 +91,7 @@ def loudest_band(music,frame_rate,bandwidth):
 	filt_music = np.multiply(music_freq,final_bp)
 	time_music = np.fft.ifft(np.fft.ifftshift(filt_music))
 
-	result = (low_freq[max_index]*freq_steps,high_freq[max_index]*freq_steps,time_music.real)
+	result = (max_index*freq_steps,(max_index+b_size)*freq_steps,time_music)
 	# #print(result)
 
 	return(result) 
