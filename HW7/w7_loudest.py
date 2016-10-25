@@ -37,7 +37,6 @@ def loudest_band(music,frame_rate,bandwidth):
 	#create arrays for the variety of values we need to output.
 	low_freq = []
 	high_freq = []
-	power = []
 
 	#power of the signal
 	signal = np.square(np.absolute(music_analysis))
@@ -52,7 +51,7 @@ def loudest_band(music,frame_rate,bandwidth):
 	#print(b_size)
 
 	#first filter 
-	signal_low_pass = sum(signal[0:b_size])
+	power = [sum(signal[0:b_size])]
 
 	#get the difference between the music and the size of the bandwidth
 	difference_between = len(music_analysis) - b_size
@@ -61,16 +60,17 @@ def loudest_band(music,frame_rate,bandwidth):
 	for i in range(0,difference_between):
 		# save the information of the different elements in these arrays. 
 		# power += [sum(signal[i:i+b_size-1])]
-		power += [signal_low_pass + signal[i+b_size-1] - signal[i-1]]
+		power += [power[i] + signal[i+b_size-1] - signal[i]]
 
 
 
-	pyplot.plot(power)
-	pyplot.show()
+	# pyplot.plot(power)
+	# pyplot.show()
 
 
 	max_index = np.argmax(power) 
-	print(max_index)
+	# print(max_index)
+	
 	if max_index != 0: 	
 		#create the bandpass filter for the negative frequencies
 		first_bp = np.append(np.ones(bandwidth+1),np.zeros(max_index-1))
