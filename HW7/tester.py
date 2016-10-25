@@ -7,7 +7,7 @@ import unittest
 from numpy import pi,cos,sin,linspace,ones_like,zeros_like
 import matplotlib.pyplot as pyplot
 import scipy.io.wavfile as wavfile
-from w7_loudest import loudest_band
+from w7_loudest2 import loudest_band
 import time
 
 def read_wave(fname,debug=False):
