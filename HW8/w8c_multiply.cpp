@@ -126,6 +126,7 @@ int main(int argc, char const *argv[]) {
 			//Error occurred
 			return return_code;		
 		}
+		//write_matrix("echo_matrix_2.txt", int_matrix_2);
 		int_matrix_3 =  multiply(int_matrix_1, int_matrix_2);
 		return_code = write_matrix(file3, int_matrix_3);
 		if (return_code != SUCCESS) {
@@ -259,10 +260,10 @@ int read_matrix(string filename, dub_matrix &matrix, int M, int N) {
 		return ERR_BAD_MATRIX;
 	}
 
-	for (i=0; i<N; i++) {
+	for (i=0; i<M; i++) {
 		buffer.clear();		
-		for(j=0; j<M; j++) {
-			buffer.push_back(numbers[i*M+j]);	
+		for(j=0; j<N; j++) {
+			buffer.push_back(numbers[i*N+j]);	
 		}
 		matrix.push_back(buffer);
 	}
@@ -304,10 +305,10 @@ int read_matrix(string filename, int_matrix &matrix, int M, int N) {
 		return ERR_BAD_MATRIX;
 	}
 
-	for (i=0; i<N; i++) {
+	for (i=0; i<M; i++) {
 		buffer.clear();		
-		for(j=0; j<M; j++) {
-			buffer.push_back(numbers[i*M+j]);	
+		for(j=0; j<N; j++) {
+			buffer.push_back(numbers[i*N+j]);	
 		}
 		matrix.push_back(buffer);
 	}
