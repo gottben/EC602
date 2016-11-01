@@ -25,10 +25,6 @@ Return codes:
 
 */
 
-//NEED TO FIX to_int and to_double in:
-//PARSE ARGS
-//READ double array
-//READ int array
 
 #include <iostream>
 #include <string>
