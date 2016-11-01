@@ -1,0 +1,140 @@
+#!/usr/bin/env python3
+# AUTHOR BrianAppleton	appleton@bu.edu
+
+'''
+Input arguments like: 
+	./w8_tester dtype sizes reps
+		dtype: int or double
+		sizes: like "[5,10,100]" to indicate square vector sizes
+		reps: the number of runs for which the execution time should be averaged using different input files
+'''
+
+
+import sys
+import subprocess
+import numpy as np
+from time import time
+
+
+'''
+Filenames of soucre code
+'''
+c_filename = "w8c_multiply_test.cpp"
+p_filename = "w8p_multiply_test"
+
+'''
+Bounds of randomly-generated numbers
+'''
+low  = -100
+high = 100
+
+'''
+Delete the files I created when done?
+'''
+cleanup = True
+
+'''
+Return codes
+'''
+SUCCESS          = 0;
+ERR_INVALID_ARGS = 1;
+ERR_COMPILATION  = 5;
+
+
+def main():
+
+	'''
+	Parse arguments
+	'''	
+	try:
+		if sys.argv[1]=="int":
+			dtype = "int"
+		elif sys.argv[1]=="double":
+			dtype = "double"
+		else:
+			raise Exception("You must specify either 'int' or 'double' as the first argument.")
+		matrix_sizes = list(map(int,sys.argv[2][1:-1].split(',')))
+		repetitions  = sys.argv[3]
+
+	except Exception as e:
+		print(str(e))
+		exit(ERR_INVALID_ARGS)
+
+	'''
+	Compile c++ code
+	'''
+	try:
+		for optimization,suffix in [["-O1","_1"], ["-O2", "_2"], ["-O3", "_3"]]:
+			subprocess.run(["g++", 
+					"-std=c++14", 
+					optimization ,
+					c_filename, 
+					"-o"+ c_filename[:-4]+suffix], 
+					check=True
+					)
+	except Exception as e:
+		print("Compilation error.", str(e))
+		exit(ERR_COMPILATION)
+
+
+	'''
+	Run tests
+	'''
+	results = []
+	for binary_name,identifier in [[c_filename[:-4]+"_1","O1"],[c_filename[:-4]+"_2","O2"],[c_filename[:-4]+"_3","O3"], [p_filename,"py"]]:
+		#For the three c++ programs and the python program,
+		for dim in matrix_sizes:
+			exec_times = np.array([])
+			#For each requested rectangular matrix size,
+			for rep in repetitions:
+				#Write input matricies
+				random_matrix((dim,dim),dtype).tofile("matrix1.txt", sep=' ')
+				random_matrix((dim,dim),dtype).tofile("matrix2.txt", sep=' ')
+				#Measure execution time
+				start  = time()
+				subprocess.run(["./"+binary_name,dtype,str(dim),"matrix1.txt","matrix2.txt","matrix3.txt"])
+				finish = time()
+				exec_times = np.append(exec_times, [finish-start])
+			#Make a tuple with pertinent information			
+			results.append((identifier, dim, np.mean(exec_times)))
+					
+	
+	'''
+	Sort results by exeuction time and print them
+		For now, printing time in ms.
+	'''	
+	results = sorted(results, key=get_time)
+	for result in results:
+		print(result[0], result[1], "%.2f" % (result[2]*1000))
+
+	'''
+	Clean up
+	'''
+	if (cleanup):
+		for file_to_delete in [c_filename[:-4]+"_1",c_filename[:-4]+"_2",c_filename[:-4]+"_3","matrix1.txt","matrix2.txt","matrix3.txt"]:
+			subprocess.run(["rm",file_to_delete])
+
+
+def get_time(item):
+	'''
+	Helper function for soritng a list of tuples using sorted()
+		Returns the execution time (3rd element) in the list "results"
+	'''
+	return item[2]
+
+
+def random_matrix(shape : tuple, dtype : str):
+	'''
+	Generate random nparray of specified shape and type
+		shape: tuple like (5,5)
+		dtype: "int" or "double"
+	'''
+	
+	if dtype == "int":
+		return np.random.randint(low, high=high, size=shape)
+	if dtype == "double":
+		return np.random.uniform(low=low, high=high, size=shape)
+
+
+if __name__ == "__main__":
+	main()
