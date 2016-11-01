@@ -109,6 +109,7 @@ def main():
 
 	'''
 	Clean up
+		if we've set cleanup=True, delete the mess of files we just created
 	'''
 	if (cleanup):
 		for file_to_delete in [c_filename[:-4]+"_1",c_filename[:-4]+"_2",c_filename[:-4]+"_3","matrix1.txt","matrix2.txt","matrix3.txt"]:
