@@ -80,14 +80,15 @@ def main():
 	'''
 	Run tests
 	'''
-	i=0
 	results = []
 	for binary_name,identifier in [[c_filename[:-4]+"_1","O1"],[c_filename[:-4]+"_2","O2"],[c_filename[:-4]+"_3","O3"], [p_filename,"py"]]:
-		#For the three c++ programs and the python program,
+	#For the three c++ programs and the python program,
 		for dim in matrix_sizes:
+		#For each requested rectangular matrix size,
 			exec_times = np.array([])
-			#For each requested rectangular matrix size,
+			
 			for rep in range(0,repetitions):
+			#For each repeat,
 				#Write input matricies
 				random_matrix((dim,dim),dtype).tofile("matrix1.txt", sep=' ')
 				random_matrix((dim,dim),dtype).tofile("matrix2.txt", sep=' ')
