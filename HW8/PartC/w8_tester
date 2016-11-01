@@ -54,7 +54,7 @@ def main():
 		else:
 			raise Exception("You must specify either 'int' or 'double' as the first argument.")
 		matrix_sizes = list(map(int,sys.argv[2][1:-1].split(',')))
-		repetitions  = sys.argv[3]
+		repetitions  = int(sys.argv[3])
 
 	except Exception as e:
 		print(str(e))
@@ -80,13 +80,14 @@ def main():
 	'''
 	Run tests
 	'''
+	i=0
 	results = []
 	for binary_name,identifier in [[c_filename[:-4]+"_1","O1"],[c_filename[:-4]+"_2","O2"],[c_filename[:-4]+"_3","O3"], [p_filename,"py"]]:
 		#For the three c++ programs and the python program,
 		for dim in matrix_sizes:
 			exec_times = np.array([])
 			#For each requested rectangular matrix size,
-			for rep in repetitions:
+			for rep in range(0,repetitions):
 				#Write input matricies
 				random_matrix((dim,dim),dtype).tofile("matrix1.txt", sep=' ')
 				random_matrix((dim,dim),dtype).tofile("matrix2.txt", sep=' ')
@@ -95,6 +96,7 @@ def main():
 				subprocess.run(["./"+binary_name,dtype,str(dim),"matrix1.txt","matrix2.txt","matrix3.txt"])
 				finish = time()
 				exec_times = np.append(exec_times, [finish-start])
+
 			#Make a tuple with pertinent information			
 			results.append((identifier, dim, np.mean(exec_times)))
 					

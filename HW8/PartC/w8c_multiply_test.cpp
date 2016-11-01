@@ -314,7 +314,7 @@ int read_matrix(string filename, int_matrix &matrix, int M, int N) {
 int to_double(string num, double &convert) {
 	//make sure all elements are digits and there are no decimal points
 	for (int i=0; i<num.length(); i++) {
-		if (!isdigit(num[i]) && num[i]!='.' && num[i]!= '-') {
+		if (!isdigit(num[i]) && num[i]!='.' && num[i]!= '-' && num[i]!= 'e') {
 			cout << "Cannot convert element " << num << " to double." << endl;;
 			return ERR_BAD_MATRIX;		
 		}
