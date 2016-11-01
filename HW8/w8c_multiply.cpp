@@ -25,6 +25,11 @@ Return codes:
 
 */
 
+//NEED TO FIX to_int and to_double in:
+//PARSE ARGS
+//READ double array
+//READ int array
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -48,11 +53,11 @@ void print_args(int argc, char const *argv[]);
 //Parse and validate command line arguments. Throw error if anything's bad.
 void parse_args(int argc, char const *argv[], string &dtype, string &file1, string &file2, string &file3, int &M, int &N, int &L);
 
-//Convert string to integer. Throw error if anything's bad.
-int to_integer(string num);
+//Convert string to integer.
+int to_integer(string num, int &convert);
 
-//Convert string to double. Throw error if anything's bad.
-double to_double(string num);
+//Convert string to double.
+int to_double(string num, double &convert);
 
 //Read all numbers from a text file into an MxN matrix
 int read_matrix(string filename, dub_matrix &matrix, int M, int N);
@@ -68,8 +73,6 @@ dub_matrix multiply(const dub_matrix& A,const dub_matrix& B);
 
 
 int main(int argc, char const *argv[]) {
-
-	
 	
 	string dtype, file1, file2, file3;
 	int M, N, L;
@@ -226,6 +229,7 @@ int read_matrix(string filename, dub_matrix &matrix, int M, int N) {
 	string number;
 	vector<double> numbers, buffer;
 	int i,j;
+	double value;
 
 
 	//Read file into "numbers" vector
@@ -233,7 +237,13 @@ int read_matrix(string filename, dub_matrix &matrix, int M, int N) {
 
 	if (fin.is_open()) {
 		while(fin >> number) {
-			numbers.push_back(to_double(number));
+			//numbers.push_back(to_double(number));
+			if(to_double(number, value) == SUCCESS) {
+				numbers.push_back(value);
+			}
+			else {
+				return ERR_BAD_MATRIX;			
+			}
 		}
 		fin.close();
 	}
@@ -265,15 +275,20 @@ int read_matrix(string filename, int_matrix &matrix, int M, int N) {
 	string number;
 	vector<int> numbers, buffer;
 	int i, j;
+	int value;
 
 	fin.open(filename);
 
 	if (fin.is_open()) {
 		while(fin >> number) {
-			numbers.push_back(to_integer(number));
+			//numbers.push_back(to_integer(number));
+			if(to_integer(number, value) == SUCCESS) {
+				numbers.push_back(value);			
+			}
+			else {
+				return ERR_BAD_MATRIX;
+			}
 		}
-
-		cout << "done" << endl;
 
 		fin.close();
 	}
@@ -299,38 +314,49 @@ int read_matrix(string filename, int_matrix &matrix, int M, int N) {
 	return SUCCESS;
 }
 
-double to_double(string num) {
+int to_double(string num, double &convert) {
 	//make sure all elements are digits and there are no decimal points
 	for (int i=0; i<num.length(); i++) {
 		if (!isdigit(num[i]) && num[i]!='.' && num[i]!= '-') {
-			throw "Cannot convert to int. Expected a digit.";		
+			cout << "Cannot convert element " << num << " to double." << endl;;
+			return ERR_BAD_MATRIX;		
 		}
 	}
-	return atof(num.c_str());
+	convert =  atof(num.c_str());
+	return SUCCESS;
 }
 
-int to_integer(string num) {
+int to_integer(string num, int &convert) {
 	//make sure all elements are digits and there are no decimal points
 	for (int i=0; i<num.length(); i++) {
 		if (!isdigit(num[i]) && num[i]!= '-') {
-			throw "Cannot convert to int. Expected a digit.";		
+			cout << "Cannot convert element " << num << " to int." << endl;
+			return ERR_BAD_MATRIX;		
 		}
 	}
-	return atoi(num.c_str());
+	convert = atoi(num.c_str());
+	return SUCCESS;
 }
 
 void parse_args(int argc, char const *argv[], string &dtype, string &file1, string &file2, string &file3, int &M, int &N, int &L) {
 	
 	//Assign M, N, L
 	if (argc==6) {
-		//Square mode			
-		M = N = L = to_integer(argv[2]);
+		//Square mode
+		if (to_integer(argv[2], M)==SUCCESS) {
+		N = L = M;
+		}
+		else {throw 1;}		
+		//M = N = L = to_integer(argv[2]);
 	}
 	else if (argc==8) {
 		//General mode
-		M     = to_integer(argv[2]);
-		N     = to_integer(argv[3]);
-		L     = to_integer(argv[4]);
+		//M     = to_integer(argv[2]);
+		//N     = to_integer(argv[3]);
+		//L     = to_integer(argv[4]);
+		if (to_integer(argv[2],M)!=SUCCESS || to_integer(argv[3],N)!=SUCCESS || to_integer(argv[4],L)!=SUCCESS) {
+			throw 1;
+		}
 	}
 	else {
 		//Unrecognized input			
