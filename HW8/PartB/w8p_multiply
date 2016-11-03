@@ -66,7 +66,9 @@ def main():
 	'''
 	Read matrix files
 		Note: No error is raised if we try to read a double as an int.
-		      Remains to be seen whether this is considered a "bug" by the checker.	
+		      Remains to be seen whether this is considered a "bug" by the checker.
+		Professor recommended np.loadtxt. This will throw value error, file not found, or permission error. Chmod 0 to test, chmod 644 to revert.
+			Things like 1. or 1e are not allowed to be ints; throw an error.	
 	'''
 	try:
 		matrix_1 = np.fromfile(sys.argv[-3], count=-1, sep=' ',dtype=dtype)
@@ -90,6 +92,7 @@ def main():
 
 	'''
 	Write output matrix
+		Professor recommended 
 	'''
 	try:
 		(matrix_1 @ matrix_2).tofile(output_filename, sep=' ')

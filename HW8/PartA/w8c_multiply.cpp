@@ -311,10 +311,19 @@ int read_matrix(string filename, int_matrix &matrix, int M, int N) {
 	return SUCCESS;
 }
 
+//Professor recommended reading directly into desired datatype
+//Can do:
+//	cin >> val 
+//	if(cin):
+//		proceed as normal
+//	else:
+//		bad val
+//Also check out cin.good(), cin.fail(), and cin.bad()
+
 int to_double(string num, double &convert) {
 	//make sure all elements are digits and there are no decimal points
 	for (int i=0; i<num.length(); i++) {
-		if (!isdigit(num[i]) && num[i]!='.' && num[i]!= '-') {
+		if (!isdigit(num[i]) && num[i]!='.' && num[i]!= '-' && num[i]!='e') {
 			cout << "Cannot convert element " << num << " to double." << endl;;
 			return ERR_BAD_MATRIX;		
 		}
