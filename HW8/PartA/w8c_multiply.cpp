@@ -1,3 +1,6 @@
+// AUTHOR BrianAppleton appleton@bu.edu
+
+
 /*
 
 Arguments, square mode (argc=6):
@@ -367,6 +370,11 @@ void parse_args(int argc, char const *argv[], string &dtype, string &file1, stri
 	else {
 		//Unrecognized input			
 		throw 1;		
+	}
+
+	//Make sure M, N, L are nonzero and non-negative
+	if (M < 1 || N < 1 || L < 1) {
+		throw 1;	
 	}
 
 	//Assign data type
