@@ -19,8 +19,8 @@ from time import time
 '''
 Filenames of soucre code
 '''
-c_filename = "w8c_multiply_test.cpp"
-p_filename = "w8p_multiply_test"
+c_filename = "w8c_multiply.cpp"
+p_filename = "w8p_multiply"
 
 '''
 Bounds of randomly-generated numbers
@@ -31,7 +31,7 @@ high = 100
 '''
 Delete the files I created when done?
 '''
-cleanup = True
+cleanup = False
 
 '''
 Return codes
@@ -69,7 +69,8 @@ def main():
 					"-std=c++14", 
 					optimization ,
 					c_filename, 
-					"-o"+ c_filename[:-4]+suffix], 
+					"-o",
+					c_filename[:-4]+suffix], 
 					check=True
 					)
 	except Exception as e:
@@ -104,11 +105,11 @@ def main():
 	
 	'''
 	Sort results by exeuction time and print them
-		For now, printing time in ms.
+		For now, printing time in s.
 	'''	
 	results = sorted(results, key=get_time)
 	for result in results:
-		print(result[0], result[1], "%.2f" % (result[2]*1000))
+		print(result[0], result[1], "%.2e" % (result[2]))
 
 	'''
 	Clean up
