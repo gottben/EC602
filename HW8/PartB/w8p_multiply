@@ -34,6 +34,7 @@ ERR_INVALID_ARGS = 1
 ERR_FILE_READ    = 2
 ERR_BAD_MATRIX   = 3
 ERR_FILE_WRITE   = 4
+ERR_UNDEFINED    = 5
 
 def main():
 
@@ -79,13 +80,24 @@ def main():
 		#matrix_2 = np.fromfile(sys.argv[-2], count=-1, sep=' ',dtype=dtype)
 		matrix_1 = np.loadtxt(sys.argv[-3], dtype = my_dtype)
 		matrix_2 = np.loadtxt(sys.argv[-2], dtype = my_dtype)
-		np.savetxt("matrix1_echo.txt", matrix_1, fmt = '%s', delimiter = ' ', newline = '\n')
-		np.savetxt("matrix2_echo.txt", matrix_2, fmt = '%s', delimiter = ' ', newline = '\n')
+		#np.savetxt("matrix1_echo.txt", matrix_1, fmt = '%s', delimiter = ' ', newline = '\n')
+		#np.savetxt("matrix2_echo.txt", matrix_2, fmt = '%s', delimiter = ' ', newline = '\n')
 		#print(type(matrix_1[0][0]))
 		output_filename = sys.argv[-1]
-	except Exception as e:
-		print(str(e))
+	except ValueError as e:
+		#print(str(e))
+		#print(type(e))
+		exit(ERR_BAD_MATRIX)
+	except FileNotFoundError as e:		
+		#print(str(e))
+		#print(type(e))		
 		exit(ERR_FILE_READ)
+	except PermissionError as e:
+		#print(str(e))
+		#print(type(e))
+		exit(ERR_FILE_READ)
+	except:
+		exit(ERR_UNDEFINED)
 
 
 	'''
