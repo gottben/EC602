@@ -53,6 +53,7 @@ def main():
 			dtype = "double"
 		else:
 			raise Exception("You must specify either 'int' or 'double' as the first argument.")
+		#Professor recommended that we use eval() to interpret python code as a list, rather than doing the complicated mess below.		
 		matrix_sizes = list(map(int,sys.argv[2][1:-1].split(',')))
 		repetitions  = int(sys.argv[3])
 
