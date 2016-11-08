@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+# AUTHOR BrianAppleton appleton@bu.edu
+# AUTHOR Alex Bennett gottbenn@bu.edu
+
+'''
+Arguments, square mode (argc=6):
+dtype: int or double
+N:     number of rows and columns
+file1: first matrix
+file2: second matrix
+file3: third matrix
+
+Arguments, general mode (argc=8):
+dtype: int or double
+M    : rows in first matrix
+N    : columns in first matrix, rows in second matrix
+L    : columns in second matrix
+file1: first matrix
+file2: second matrix
+file3: third matrix
+
+Return codes:
+1    : command line args are invalid
+2    : one or more input files do not exist
+3    : data in files does not conform to expectations (bad number of elements, incorrect type?)
+4    : result matrix cannot be created (file write issue)
+'''
+
+
+import numpy as np
+import sys
+
+SUCCESS          = 0
+ERR_INVALID_ARGS = 1
+ERR_FILE_READ    = 2
+ERR_BAD_MATRIX   = 3
+ERR_FILE_WRITE   = 4
+ERR_UNDEFINED    = 5
+
+def main():
+
+	'''	
+	Determine mode (Square vs. General)
+	'''
+	argc = len(sys.argv)
+	if argc == 6:
+		#Square mode
+		M = N = L = int(sys.argv[2]) 
+
+	elif argc == 8:
+		#General mode
+		[M,N,L] = list(map(int,sys.argv[2:5]))
+
+	else:
+		exit(ERR_INVALID_ARGS)
+
+	if M < 1 or N < 1 or L < 1:
+		#Matrix sizes are not permitted to be zero or negative
+		exit(ERR_INVALID_ARGS)
+
+	'''
+	Determine data type to read and write
+	'''
+	if sys.argv[1] == "int":
+		my_dtype = int
+	elif sys.argv[1] == "double":
+		my_dtype = float
+	else:
+		print(sys.argv[1], " is not int or double.")
+		exit(ERR_INVALID_ARGS)
+
+	'''
+	Read matrix files
+		Note: No error is raised if we try to read a double as an int.
+		      Remains to be seen whether this is considered a "bug" by the checker.
+		Professor recommended np.loadtxt. This will throw value error, file not found, or permission error. Chmod 0 to test, chmod 644 to revert.
+			Things like 1. or 1e are not allowed to be ints; throw an error.	
+	'''
+	try:
+		#matrix_1 = np.fromfile(sys.argv[-3], count=-1, sep=' ',dtype=dtype)
+		#matrix_2 = np.fromfile(sys.argv[-2], count=-1, sep=' ',dtype=dtype)
+		matrix_1 = np.loadtxt(sys.argv[-3], dtype = my_dtype)
+		matrix_2 = np.loadtxt(sys.argv[-2], dtype = my_dtype)
+		#np.savetxt("matrix1_echo.txt", matrix_1, fmt = '%s', delimiter = ' ', newline = '\n')
+		#np.savetxt("matrix2_echo.txt", matrix_2, fmt = '%s', delimiter = ' ', newline = '\n')
+		#print(type(matrix_1[0][0]))
+		output_filename = sys.argv[-1]
+	except ValueError as e:
+		#print(str(e))
+		#print(type(e))
+		exit(ERR_BAD_MATRIX)
+	except FileNotFoundError as e:		
+		#print(str(e))
+		#print(type(e))		
+		exit(ERR_FILE_READ)
+	except PermissionError as e:
+		#print(str(e))
+		#print(type(e))
+		exit(ERR_FILE_READ)
+	except:
+		exit(ERR_UNDEFINED)
+
+
+	'''
+	Shape matricies
+		Note: ndarray.shape raises an exception if there's an incorrect # of elements
+	'''
+	try:
+		matrix_1.shape = (M,N)
+		matrix_2.shape = (N,L)
+		
+	except Exception as e:
+		print(str(e))		
+		exit(ERR_BAD_MATRIX)
+
+	'''
+	Write output matrix
+		Professor recommended using np.savetxt instead of np.tofile. This preserves the shape of the array, whereas tofile destroys it.
+	'''
+	try:
+		#(matrix_1 @ matrix_2).tofile(output_filename, sep=' ')
+		np.savetxt(output_filename, (matrix_1 @ matrix_2), fmt = '%s', delimiter = ' ', newline = '\n')
+	except Exception as e:		
+		print(str(e))
+		exit(ERR_FILE_WRITE)
+	
+
+	exit(SUCCESS)
+
+if __name__ == "__main__":
+	main()
+
+
+
+
+
