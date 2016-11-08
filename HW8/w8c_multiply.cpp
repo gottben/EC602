@@ -1,3 +1,5 @@
+// Author AlexBennett gottbenn@bu.edu
+
 // Convert command line values to double
 
 // Command to compile C++ code: g++ '-std=c++1y' <filename> 
@@ -36,6 +38,7 @@ if ((argc-1) != 5 && (argc-1) != 7)
 	return ERROR_ONE; 
 }
 
+
 // check to see if we are provided a valid datatype. 
 try
 {
@@ -44,7 +47,7 @@ try
 		std:: string dtype = argv[argc-7];
 		if(dtype != "int" && dtype !="double")
 		{
-			cout << "ERROR_ONE: command line inputs invalid" << endl;
+			//cout << "ERROR_ONE: command line inputs invalid" << endl;
 			return ERROR_ONE; 
 		}
 	}
@@ -53,14 +56,14 @@ try
 		std:: string dtype = argv[argc- 5];
 		if(dtype != "int" && dtype !="double")
 		{
-			cout << "ERROR_ONE: command line inputs invalid" << endl;
+			//cout << "ERROR_ONE: command line inputs invalid" << endl;
 			return ERROR_ONE; 
 		}
 	}
 }
 catch (...)
 {
-	cout << "ERROR_ONE: command line inputs invalid" << endl;
+	//cout << "ERROR_ONE: command line inputs invalid" << endl;
 	return ERROR_ONE; 
 }
 
@@ -77,7 +80,7 @@ try
 }
 catch (...) 
 {
-	cout << "ERROR_ONE: command line inputs invalid" << endl;
+	//cout << "ERROR_ONE: command line inputs invalid" << endl;
 	return ERROR_ONE; 
 }
 
@@ -85,12 +88,24 @@ catch (...)
 try 
 {
 	if((argc-1) == 5)
+	{
 		int dimension = stoi(argv[argc-4]);
+		if(dimension < 1)
+		{
+			//cout << "ERROR_ONE: command line inputs invalid" << endl;
+			return ERROR_ONE; 
+		}
+	}
 	else if((argc-1) == 7)
 	{
 		int dim1 = stoi(argv[argc-6]);
 		int dim2 = stoi(argv[argc-5]);
 		int dim3 = stoi(argv[argc-4]);
+		if((dim1 < 1) || (dim2 < 1) || (dim3 <1))
+		{
+			cout << "ERROR_ONE: command line inputs invalid" << endl;
+			return ERROR_ONE;
+		}
 	}
 }
 catch (...)
@@ -127,6 +142,13 @@ catch (...)
 			return ERROR_TWO;
 		}
 		filetest.close();
+		filetest.open(output_file);
+		if(!filetest.is_open())
+		{
+			cout << "ERROR_FOUR: cannot write to file" << endl;
+			return ERROR_FOUR;
+		}
+		filetest.close();
 	}
 	catch(...)
 	{
@@ -144,11 +166,12 @@ catch (...)
 			squares2 = read_file <vector<int>>(squares2,filename2,dtype);
 			if((argc-1) == 5)
 			{
+
 				int theoretical_size = stoi(argv[2])*stoi(argv[2]);
-				if((squares1.size() != squares2.size()) && (squares2.size() != theoretical_size))
+				if((squares1.size() != squares2.size()) || (squares2.size() != theoretical_size))
 				{
-					cout << "ERROR_FOUR: Cannot create matrix" << endl;
-					return ERROR_FOUR;
+					cout << "ERROR_THREE: Cannot create matrix" << endl;
+					return ERROR_THREE;
 				}
 			}
 			else if((argc-1) == 7)
@@ -157,8 +180,8 @@ catch (...)
 				int theoretical_size2 = stoi(argv[3]) * stoi(argv[4]);
 				if((squares1.size() != theoretical_size1) || (squares2.size() != theoretical_size2))
 				{
-					cout << "ERROR_FOUR: Cannot create matrix" << endl;
-					return ERROR_FOUR;
+					cout << "ERROR_THREE: Cannot create matrix" << endl;
+					return ERROR_THREE;
 				}
 			}
 		}
@@ -172,8 +195,8 @@ catch (...)
 				int theoretical_size = stoi(argv[2])*stoi(argv[2]);
 				if((squares1.size() != squares2.size()) && (squares2.size() != theoretical_size))
 				{
-					cout << "ERROR_FOUR: Cannot create matrix" << endl;
-					return ERROR_FOUR;
+					cout << "ERROR_THREE: Cannot create matrix" << endl;
+					return ERROR_THREE;
 				}
 			}
 			else if((argc-1) == 7)
@@ -182,8 +205,8 @@ catch (...)
 				int theoretical_size2 = stoi(argv[3]) * stoi(argv[4]);
 				if((squares1.size() != theoretical_size1) || (squares2.size() != theoretical_size2))
 				{
-					cout << "ERROR_FOUR: Cannot create matrix" << endl;
-					return ERROR_FOUR;
+					cout << "ERROR_THREE: Cannot create matrix" << endl;
+					return ERROR_THREE;
 				}
 			}
 		}
@@ -193,6 +216,7 @@ catch (...)
 		cout << "ERROR_THREE: inputs not what were expected" << endl;
 		return ERROR_THREE; 
 	}
+
 
 /********************************************************************************************************************************************/
 //				This marks the end of the checker and the beginning of the steps to multiplication
@@ -221,6 +245,11 @@ catch (...)
 			int column = 0;
 			int** M1     = shape_matrix <int**>(M, 1, squares1, row, column);
 			int** M2     = shape_matrix <int**>(M, 1, squares2, row, column);
+			if(M1 == 0 || M2 == 0)
+			{
+				cout << "ERROR_FOUR: cannot write Matrix" << endl;
+				return ERROR_FOUR;
+			}
 			int** squares3 = multiply_matrix(M1, M2, M, 1, 1, row, column);
 			print_matrix(M,1,squares3,output_file);
 		}
@@ -233,6 +262,11 @@ catch (...)
 			int column = 0; 
 			int** M1     = shape_matrix <int**> (M,T,squares1, row, column);
 			int** M2     = shape_matrix <int**> (T,L,squares2, row, column);
+			if(M1 == 0 || M2 == 0)
+			{
+				cout << "ERROR_FOUR: cannot write Matrix" << endl;
+				return ERROR_FOUR;
+			}
 			int** squares3 = multiply_matrix(M1, M2, M, L, T, row, column);
 			print_matrix(M,L,squares3,output_file);
 		}
@@ -259,6 +293,12 @@ catch (...)
 			double column = 0;
 			double** M1     = shape_matrix <double**>(M, 1, squares1, row, column);
 			double** M2     = shape_matrix <double**>(M, 1, squares2, row, column);
+
+			if(M1 == 0 || M2 == 0)
+			{
+				cout << "ERROR_FOUR: cannot write Matrix" << endl;
+				return ERROR_FOUR;
+			}
 			double** squares3 = multiply_matrix(M1, M2, M, 1, 1, row, column);
 			print_matrix(M,1,squares3,output_file);
 		}
@@ -271,8 +311,15 @@ catch (...)
 			double column = 0; 
 			double** M1     = shape_matrix <double**> (M,T,squares1, row, column);
 			double** M2     = shape_matrix <double**> (T,L,squares2, row, column);
+			if(M1 == 0 || M2 == 0)
+			{
+				cout << "ERROR_FOUR: cannot write Matrix" << endl;
+				return ERROR_FOUR;
+			}
+
 			double** squares3 = multiply_matrix(M1, M2, M, L, T, row, column);
 			print_matrix(M,L,squares3,output_file);
+
 		}
 	}
 }
@@ -400,11 +447,17 @@ template <typename matrix_multiply, typename row_class, typename column_class> m
 	}
 }
 
-template <typename matrix_class> void print_matrix(int M, int L, matrix_class matrix, string filename){
+template <typename matrix_class> int print_matrix(int M, int L, matrix_class matrix, string filename){
 
 	ofstream file3; 
 
 	file3.open(filename);
+
+	if(!file3.is_open())
+	{
+		cout << "ERROR_FOUR: cannot write to file" << endl;
+		return ERROR_FOUR; 
+	}
 
 	if(L == 1){
 		for(int i = 0; i < M; i++)
