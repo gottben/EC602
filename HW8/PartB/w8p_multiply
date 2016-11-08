@@ -52,13 +52,17 @@ def main():
 	else:
 		exit(ERR_INVALID_ARGS)
 
+	if M < 1 or N < 1 or L < 1:
+		#Matrix sizes are not permitted to be zero or negative
+		exit(ERR_INVALID_ARGS)
+
 	'''
 	Determine data type to read and write
 	'''
 	if sys.argv[1] == "int":
-		dtype = np.int32
+		my_dtype = int
 	elif sys.argv[1] == "double":
-		dtype = np.float64
+		my_dtype = float
 	else:
 		print(sys.argv[1], " is not int or double.")
 		exit(ERR_INVALID_ARGS)
@@ -71,12 +75,18 @@ def main():
 			Things like 1. or 1e are not allowed to be ints; throw an error.	
 	'''
 	try:
-		matrix_1 = np.fromfile(sys.argv[-3], count=-1, sep=' ',dtype=dtype)
-		matrix_2 = np.fromfile(sys.argv[-2], count=-1, sep=' ',dtype=dtype)
+		#matrix_1 = np.fromfile(sys.argv[-3], count=-1, sep=' ',dtype=dtype)
+		#matrix_2 = np.fromfile(sys.argv[-2], count=-1, sep=' ',dtype=dtype)
+		matrix_1 = np.loadtxt(sys.argv[-3], dtype = my_dtype)
+		matrix_2 = np.loadtxt(sys.argv[-2], dtype = my_dtype)
+		np.savetxt("matrix1_echo.txt", matrix_1, fmt = '%s', delimiter = ' ', newline = '\n')
+		np.savetxt("matrix2_echo.txt", matrix_2, fmt = '%s', delimiter = ' ', newline = '\n')
+		#print(type(matrix_1[0][0]))
 		output_filename = sys.argv[-1]
 	except Exception as e:
 		print(str(e))
-		return ERR_FILE_READ
+		exit(ERR_FILE_READ)
+
 
 	'''
 	Shape matricies
@@ -92,10 +102,11 @@ def main():
 
 	'''
 	Write output matrix
-		Professor recommended 
+		Professor recommended using np.savetxt instead of np.tofile. This preserves the shape of the array, whereas tofile destroys it.
 	'''
 	try:
-		(matrix_1 @ matrix_2).tofile(output_filename, sep=' ')
+		#(matrix_1 @ matrix_2).tofile(output_filename, sep=' ')
+		np.savetxt(output_filename, (matrix_1 @ matrix_2), fmt = '%s', delimiter = ' ', newline = '\n')
 	except Exception as e:		
 		print(str(e))
 		exit(ERR_FILE_WRITE)
