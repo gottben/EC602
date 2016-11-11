@@ -16,7 +16,7 @@ using namespace std;
 template <typename vector_class> vector_class read_file(vector_class squares, string filename, string dtype);
 template <typename matrix_shape, typename vector_class, typename row_class, typename column_class> matrix_shape shape_matrix(int M, int L, vector_class squares, row_class row, column_class column);
 template <typename matrix_multiply, typename row_class, typename column_class> matrix_multiply multiply_matrix(matrix_multiply M1, matrix_multiply M2, int M, int L, int T, row_class row, column_class column);
-template <typename matrix_class> void print_matrix(int M, int L, matrix_class matrix, string filename);
+template <typename matrix_class> int print_matrix(int M, int L, matrix_class matrix, string filename);
 
 // Define Global Error constants 
 const int  ERROR_ONE = 1; 			//	invalid command line arguments
@@ -142,13 +142,6 @@ catch (...)
 			return ERROR_TWO;
 		}
 		filetest.close();
-		filetest.open(output_file);
-		if(!filetest.is_open())
-		{
-			cout << "ERROR_FOUR: cannot write to file" << endl;
-			return ERROR_FOUR;
-		}
-		filetest.close();
 	}
 	catch(...)
 	{
@@ -166,8 +159,12 @@ catch (...)
 			squares2 = read_file <vector<int>>(squares2,filename2,dtype);
 			if((argc-1) == 5)
 			{
-
 				int theoretical_size = stoi(argv[2])*stoi(argv[2]);
+				if((theoretical_size == 1) || (theoretical_size == 0))
+				{
+					cout << "ERROR_THREE: Cannot create matrix" << endl;
+					return ERROR_THREE; 
+				}
 				if((squares1.size() != squares2.size()) || (squares2.size() != theoretical_size))
 				{
 					cout << "ERROR_THREE: Cannot create matrix" << endl;
@@ -178,6 +175,11 @@ catch (...)
 			{
 				int theoretical_size1 = stoi(argv[2]) * stoi(argv[3]);
 				int theoretical_size2 = stoi(argv[3]) * stoi(argv[4]);
+				if((theoretical_size1 == 1) || (theoretical_size2 == 1))
+				{
+					cout << "ERROR_THREE: Cannot create matrix" << endl;
+					return ERROR_THREE; 
+				}
 				if((squares1.size() != theoretical_size1) || (squares2.size() != theoretical_size2))
 				{
 					cout << "ERROR_THREE: Cannot create matrix" << endl;
@@ -193,6 +195,11 @@ catch (...)
 			if((argc-1) == 5)
 			{
 				int theoretical_size = stoi(argv[2])*stoi(argv[2]);
+				if((theoretical_size == 1) || (theoretical_size == 0))
+				{
+					cout << "ERROR_THREE: Cannot create matrix" << endl;
+					return ERROR_THREE; 
+				}
 				if((squares1.size() != squares2.size()) && (squares2.size() != theoretical_size))
 				{
 					cout << "ERROR_THREE: Cannot create matrix" << endl;
@@ -203,6 +210,11 @@ catch (...)
 			{
 				int theoretical_size1 = stoi(argv[2]) * stoi(argv[3]);
 				int theoretical_size2 = stoi(argv[3]) * stoi(argv[4]);
+				if((theoretical_size1 == 1) || (theoretical_size2 == 1))
+				{
+					cout << "ERROR_THREE: Cannot create matrix" << endl;
+					return ERROR_THREE; 
+				}
 				if((squares1.size() != theoretical_size1) || (squares2.size() != theoretical_size2))
 				{
 					cout << "ERROR_THREE: Cannot create matrix" << endl;
@@ -245,13 +257,10 @@ catch (...)
 			int column = 0;
 			int** M1     = shape_matrix <int**>(M, 1, squares1, row, column);
 			int** M2     = shape_matrix <int**>(M, 1, squares2, row, column);
-			if(M1 == 0 || M2 == 0)
-			{
-				cout << "ERROR_FOUR: cannot write Matrix" << endl;
-				return ERROR_FOUR;
-			}
 			int** squares3 = multiply_matrix(M1, M2, M, 1, 1, row, column);
-			print_matrix(M,1,squares3,output_file);
+			int print = print_matrix(M,1,squares3,output_file);
+			if(print == 4)
+				return ERROR_FOUR;
 		}
 		else
 		{
@@ -262,13 +271,10 @@ catch (...)
 			int column = 0; 
 			int** M1     = shape_matrix <int**> (M,T,squares1, row, column);
 			int** M2     = shape_matrix <int**> (T,L,squares2, row, column);
-			if(M1 == 0 || M2 == 0)
-			{
-				cout << "ERROR_FOUR: cannot write Matrix" << endl;
-				return ERROR_FOUR;
-			}
 			int** squares3 = multiply_matrix(M1, M2, M, L, T, row, column);
-			print_matrix(M,L,squares3,output_file);
+			int print = print_matrix(M,L,squares3,output_file);
+			if(print == 4)
+				return ERROR_FOUR;
 		}
 	}
 	else if(dtype == "double")
@@ -281,9 +287,6 @@ catch (...)
 		squares1 = read_file <vector<double>>(squares1,filename1,dtype);
 		squares2 = read_file <vector<double>>(squares2,filename2,dtype);
 
-
-
-
 	// The next thing we need to do is prepare the vectors we made 
 	// to be multiplied together by converting them into matrices. 
 		if((argc-1) == 5)
@@ -293,14 +296,10 @@ catch (...)
 			double column = 0;
 			double** M1     = shape_matrix <double**>(M, 1, squares1, row, column);
 			double** M2     = shape_matrix <double**>(M, 1, squares2, row, column);
-
-			if(M1 == 0 || M2 == 0)
-			{
-				cout << "ERROR_FOUR: cannot write Matrix" << endl;
-				return ERROR_FOUR;
-			}
 			double** squares3 = multiply_matrix(M1, M2, M, 1, 1, row, column);
-			print_matrix(M,1,squares3,output_file);
+			int print = print_matrix(M,1,squares3,output_file);
+			if(print ==4)
+				return ERROR_FOUR;
 		}
 		else
 		{
@@ -311,14 +310,10 @@ catch (...)
 			double column = 0; 
 			double** M1     = shape_matrix <double**> (M,T,squares1, row, column);
 			double** M2     = shape_matrix <double**> (T,L,squares2, row, column);
-			if(M1 == 0 || M2 == 0)
-			{
-				cout << "ERROR_FOUR: cannot write Matrix" << endl;
-				return ERROR_FOUR;
-			}
-
 			double** squares3 = multiply_matrix(M1, M2, M, L, T, row, column);
-			print_matrix(M,L,squares3,output_file);
+			int print = print_matrix(M,L,squares3,output_file);
+			if(print == 4)
+				return ERROR_FOUR;
 
 		}
 	}
@@ -357,46 +352,37 @@ template <typename vector_class> vector_class read_file(vector_class squares, st
 
 template <typename matrix_shape, typename vector_class, typename row_class, typename column_class> matrix_shape shape_matrix(int M, int L, vector_class squares, row_class row, column_class column)
 {
-	try
+	if(L == 1)
 	{
-		if(L == 1)
+		matrix_shape M1 = 0;
+		M1 = new row_class[M];
+		int counter = 0; 
+
+		for(int i = 0; i<M; i++)
 		{
-			matrix_shape M1 = 0;
-			M1 = new row_class[M];
-			int counter = 0; 
+			M1[i] = new column_class[M];
 
-			for(int i = 0; i<M; i++)
-			{
-				M1[i] = new column_class[M];
-
-				for(int j =0; j<M; j++){
-					M1[i][j] = squares[counter++];
-				}
+			for(int j =0; j<M; j++){
+				M1[i][j] = squares[counter++];
 			}
-			return M1;
 		}
-		else 
-		{
-			matrix_shape M1 = 0; 
-			M1 = new row_class[M];
-			int counter = 0; 
-
-			for(int i =0; i<M;i++)
-			{
-				M1[i] = new column_class[L];
-
-				for(int j=0;j<L;j++){
-					M1[i][j] = squares[counter++];
-				}
-			}
-			return M1;
-		}
+		return M1;
 	}
-	catch(...)
+	else 
 	{
-		cout << "ERROR_FOUR: cannot create matrix" << endl;
-		matrix_shape fail = 0;
-		return fail;
+		matrix_shape M1 = 0; 
+		M1 = new row_class[M];
+		int counter = 0; 
+
+		for(int i =0; i<M;i++)
+		{
+			M1[i] = new column_class[L];
+
+			for(int j=0;j<L;j++){
+				M1[i][j] = squares[counter++];
+			}
+		}
+		return M1;
 	}
 }
 
