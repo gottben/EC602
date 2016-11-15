@@ -10,28 +10,25 @@ def main(argv):
         for line in f:
             N = len(line)
             d_words = {}
-            if line[0] not in the_dict:
-                d_words[N] = [line[0:N - 1]]
-                the_dict[line[0]] = d_words
-            elif N not in the_dict[line[0]]:
-                d_words[N] = [line[0:N - 1]]
-                the_dict[line[0]].update(d_words)
+            if N not in the_dict:
+                d_words[line[0]] = [line[0:N - 1]]
+                the_dict[N] = d_words
+            elif line[0] not in the_dict[N]:
+                d_words[line[0]] = [line[0:N - 1]]
+                the_dict[N].update(d_words)
             else:
-                the_dict[line[0]][N].append(line[0:N - 1])
+                the_dict[N][line[0]].append(line[0:N - 1])
 
     l_list, N = input().split()
-    for i in range(0, 10000000):
+    while(N != "0"):
         try:
             result = []
 
-            if N == "0":
-                break
-
             N = int(N) + int(1)
 
-            for key, value in the_dict.items():
-                if key in l_list and N in the_dict[key]:
-                    for word in the_dict[key][N]:
+            for key, value in the_dict[N].items():
+                if key in l_list:
+                    for word in value:
                         n_list = l_list
                         for c in word:
                             if c in n_list:
@@ -51,8 +48,6 @@ def main(argv):
         except:
             print(".")
             l_list, N = input().split()
-            if(N == "0"):
-                break
 
 if __name__ == "__main__":
     main(sys.argv[1:])
