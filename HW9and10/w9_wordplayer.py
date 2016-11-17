@@ -1,6 +1,7 @@
 #!/usr/bin/python3.5
 # AUTHOR AlexBennett gottbenn@bu.edu
 import sys
+import itertools
 
 
 def main(argv):
@@ -8,35 +9,47 @@ def main(argv):
 
     with open(argv[0]) as f:
         for line in f:
-            N = len(line)
+            N = len(line) - 1
             d_words = {}
+            word = ''.join(sorted(line[0:N]))
             if N not in the_dict:
-                d_words[line[0]] = [line[0:N - 1]]
+                d_words[word] = [line[0:N]]
                 the_dict[N] = d_words
-            elif line[0] not in the_dict[N]:
-                d_words[line[0]] = [line[0:N - 1]]
+            elif word not in the_dict[N]:
+                d_words[word] = [line[0:N]]
                 the_dict[N].update(d_words)
             else:
-                the_dict[N][line[0]].append(line[0:N - 1])
+                the_dict[N][word].append(line[0:N])
 
     l_list, N = input().split()
+
     while(N != "0"):
         try:
             result = []
+            u_comb = []
+            N = int(N)
 
-            N = int(N) + int(1)
+            if N > 8:
+                for key, value in the_dict[N].items():
+                    n_list = l_list
+                    for char in key:
+                        if char in n_list:
+                            n_list = n_list.replace(char, "", 1)
+                            if (len(l_list) - N) == len(n_list):
+                                result += value
+                        else:
+                            break
+            else:
+                for i in itertools.combinations(list(l_list), N):
+                    i = sorted(i)
+                    u_comb += [''.join(i)]
 
-            for key, value in the_dict[N].items():
-                if key in l_list:
-                    for word in value:
-                        n_list = l_list
-                        for c in word:
-                            if c in n_list:
-                                n_list = n_list.replace(c, "", 1)
-                                if (len(l_list) - len(word)) == len(n_list):
-                                    result += [word]
-                            else:
-                                break
+                u_comb = list(set(u_comb))
+                u_comb.sort()
+
+                for comb in u_comb:
+                    if comb in the_dict[N]:
+                        result += the_dict[N][comb]
 
             result.sort()
             if result == []:

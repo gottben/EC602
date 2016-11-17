@@ -29,17 +29,17 @@ def main(argv):
             u_comb = []
             N = int(N)
 
-            permut = list(itertools.permutations(list(l_list), N))
+            permut = list(itertools.combinations(list(l_list), N))
 
-            for i in permut:
+            for i in itertools.combinations(list(l_list), N):
                 u_comb += [''.join(i)]
 
             u_comb = list(set(u_comb))
             u_comb.sort()
 
-            for key, value in the_dict[N].items():
-                if key in u_comb:
-                    result += value
+            for comb in u_comb:
+                if comb in the_dict[N]:
+                    result += the_dict[N][comb]
 
             result.sort()
             if result == []:
