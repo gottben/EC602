@@ -2,13 +2,12 @@
 
 
 
-import time
+#import time
 import sys
 import itertools
-import math
-import collections
+#import collections
 
-st = time.time()
+#st = time.time()
 
 def possible(word, letters, N):
     #return False    
@@ -45,7 +44,7 @@ for word in words:
         dict_words[n].add(word)
 
 
-print("Digestion: ", time.time()-st)
+#print("Digestion: ", time.time()-st)
 
 while(True):
     letters, r = input().split()
@@ -60,16 +59,16 @@ while(True):
 
     #checkpoint = time.time()    
     
-    if n < 9:
-        word_lst = [list(map(''.join,dict_words[combo])) for combo in itertools.combinations(letters,r) if combo in dict_words]
-        #print(list(itertools.chain.from_iterable(word_lst)))
-        #print(set(itertools.chain.from_iterable(word_lst)))
+    word_lst = [list(map(''.join,dict_words[combo])) for combo in itertools.combinations(letters,r) if combo in dict_words]
+    #print(list(itertools.chain.from_iterable(word_lst)))
+    #print(set(itertools.chain.from_iterable(word_lst)))
+    if len(word_lst) != 0:       
         print(*sorted(set(itertools.chain.from_iterable(word_lst))), sep='\n')
-        print('.')
-        #print(*sorted(list(itertools.chain.from_iterable(word_lst))), sep='\n')
-        #for combo in itertools.combinations(letters,r):
-        #    print(combo)
+    print('.')
+    #print(*sorted(list(itertools.chain.from_iterable(word_lst))), sep='\n')
+    #for combo in itertools.combinations(letters,r):
+    #    print(combo)
         
     #print("That took ", time.time()-checkpoint, "seconds.")
 
-print("Execution time: ", time.time()-st)
+#print("Execution time: ", time.time()-st)
