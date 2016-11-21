@@ -12,7 +12,7 @@ pythonexec = 'python3.5'
 
 sourcecode = "./w9_wordplayer.py"
 program = sourcecode
-#   sourcecode = "./w10_wordplayer.cpp"
+sourcecode = "./w10_wordplayer.cpp"
 
 Wordlist = {}
 Input = {}
@@ -123,7 +123,7 @@ Output['bigtest'] = open(FilesNeeded[1]).read()
 # if C++, compile
 if testing == 'cpp':
     program = sourcecode[:-4]
-    T = subprocess.run(['g++', "-std=c++14", "-O3", sourcecode, "-o", program])
+    T = subprocess.run(['g++', '-std=c++1y', "-O3", sourcecode, "-o", program])
 
     if T.returncode:
         print(T)
