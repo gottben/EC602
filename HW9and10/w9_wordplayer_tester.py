@@ -12,7 +12,7 @@ pythonexec = 'python3.5'
 
 sourcecode = "./w9_wordplayer.py"
 program = sourcecode
-sourcecode = "./w10_wordplayer.cpp"
+# sourcecode = "./w10_wordplayer.cpp"
 
 Wordlist = {}
 Input = {}

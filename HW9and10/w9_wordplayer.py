@@ -1,4 +1,7 @@
-# AUTHOR AlexBennett gottbenn@bu.edu
+# AUTHOR BrianAppleton appleton@bu.edu
+# AUTHOR AlexanderBennett gottbenn@bu.edu
+# AUTHOR CathrynCallahan cathcal@bu.edu
+
 import sys
 import itertools
 
@@ -8,14 +11,11 @@ the_dict = {}
 with open(sys.argv[1]) as f:
     for line in f:
         N = len(line) - 1
-        d_words = {}
         word = ''.join(sorted(line[0:N]))
         if N not in the_dict:
-            d_words[word] = [line[0:N]]
-            the_dict[N] = d_words
+            the_dict[N] = {word: [line[0:N]]}
         elif word not in the_dict[N]:
-            d_words[word] = [line[0:N]]
-            the_dict[N].update(d_words)
+            the_dict[N].update({word: [line[0:N]]})
         else:
             the_dict[N][word].append(line[0:N])
 
@@ -28,7 +28,7 @@ while(True):
         u_comb = []
         N = int(N)
 
-        if (len(l_list) - N) > 5:
+        if len(l_list) - N > 5:
             for key, value in the_dict[N].items():
                 n_list = l_list
                 for char in key:

@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <vector>
+#include <unordered_set>
 #include <set>
 
 
@@ -17,11 +18,9 @@ typedef std::unordered_map<int, single_dict> double_dict;
 typedef std::string str;
 typedef std::vector<std::string> v_string;
 typedef v_string::iterator vs_it;
-typedef std::set<str> strset;
+typedef std::unordered_set<str> strset;
 typedef single_dict::iterator mapIter;
 
-template <typename Iterator>
-bool next_combination(const Iterator first, Iterator k, const Iterator last);
 
 int main(int argc, char const *argv[]) {
     std::ifstream infile(argv[1]);
@@ -34,7 +33,6 @@ int main(int argc, char const *argv[]) {
       str sortedWord = content;
       std::sort(sortedWord.begin(), sortedWord.end());
       single_dict d_words;
-
       if ( the_dict.find(N) == the_dict.end() ) {
           d_words.insert({sortedWord, content});
           the_dict.insert({N, d_words});
@@ -46,27 +44,26 @@ int main(int argc, char const *argv[]) {
           the_dict.at(N).insert(d_words.begin(), d_words.end());
       }
     }
+    infile.close();
 
       while (1) {
-        str mystr;
-        strset result;
-        str temp;
+        str letter_list;
+        int N;
+        int i, n;
+        std::set<str> result;
         strset combinations;
-        std::vector<str> input;
-        getline(std::cin, mystr);
-        std::stringstream s(mystr);
-        while (s >> temp)
-          input.push_back(temp);
-
-        int N = stoi(input[1]);
-        if (input[1] == "0")
-            break;
-        str letter_list = input[0];
+        std::cin >> letter_list >> N;
+        std::vector<int> v(letter_list.size(), 0);
+        fill(v.begin(), v.begin() + N, 1);
+        str c(N, ' ');
+        if (N == 0)
+          break;
 
         try {
+                  result.clear();
                   single_dict a_dict = the_dict.at(N);
-                if ((letter_list.length() - N) > 5) {
-                          for (auto& x : a_dict) {
+                if (letter_list.length() >  20) {
+                          for (auto& x : the_dict.at(N)) {
                           str word = x.first;
                           str n_list = letter_list;
                           for (char& c : word) {
@@ -82,29 +79,23 @@ int main(int argc, char const *argv[]) {
                           }
                       }
                   } else {
-                      for (std::size_t i = 1; i <= letter_list.size(); ++i) {
-                         do {
-                            str comb = str(letter_list.begin(),
-                                           letter_list.begin() + i);
-                            if (comb.length() == N)
-                                combinations.insert(comb);
-                         } while (next_combination(letter_list.begin(),
-                                                   letter_list.begin() + i,
-                                                   letter_list.end()));
-                      }
-
-                      for (auto& cit : combinations) {
-                        if (a_dict.find(cit) !=
+                    do {
+                      n = 0;
+                      for (i = 0; i < v.size(); i++)
+                        if (v[i]) {
+                          c[n++] = letter_list[i];
+                          std::sort(c.begin(), c.end());
+                        if (a_dict.find(c) !=
                             a_dict.end()) {
                             std::pair<mapIter, mapIter> keyRange =
-                          a_dict.equal_range(cit);
+                          a_dict.equal_range(c);
                             for (mapIter s_it = keyRange.first; s_it !=
                                 keyRange.second; ++s_it) {
                                 str word = (*s_it).second;
                                 result.insert((*s_it).second);
                             }
-                        }
-                      }
+                        } }
+                    } while (prev_permutation(begin(v), end(v)));
                 }
 
                   for (auto& it : result) {
@@ -116,39 +107,4 @@ int main(int argc, char const *argv[]) {
                 std::cout << "." << std::endl;
             }
       }
-}
-
-template <typename Iterator>
-bool next_combination(const Iterator first, Iterator k, const Iterator last) {
-// Credits: Mark Nelson http://marknelson.us
-  if ((first == last) || (first == k) || (last == k))
-    return false;
-  Iterator i1 = first;
-  Iterator i2 = last;
-  ++i1;
-  if (last == i1)
-    return false;
-  i1 = last;
-  --i1;
-  i1 = k;
-  --i2;
-  while (first != i1) {
-    if (*--i1 < *i2) {
-       Iterator j = k;
-       while (!(*i1 < *j)) ++j;
-       std::iter_swap(i1, j);
-       ++i1;
-       ++j;
-       i2 = k;
-       std::rotate(i1, j, last);
-       while (last != j) {
-          ++j;
-          ++i2;
-       }
-       std::rotate(k, i2, last);
-       return true;
-    }
-  }
-  std::rotate(first, k, last);
-  return false;
 }
