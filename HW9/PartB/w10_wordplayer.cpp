@@ -1,4 +1,6 @@
 // AUTHOR BrianAppleton appleton@bu.edu
+// AUTHOR AlexBennett gottbenn@bu.edu
+// AUTHOR CathrynCallahan cathcal@bu.edu
 // Copyright 2016 Brian Appleton
 
 #include <iostream>
@@ -20,9 +22,7 @@ std::unordered_set<std::string> get_combos(std::string letters, int r);
 
 int main(int argc, char const *argv[]) {
     read_wordlist(argv[1]);
-    std::string buffer;
     std::string letters;
-    std::string number;
     int n, r;
     std::set<std::string> word_list;
     std::unordered_set<std::string> combos;
@@ -61,6 +61,8 @@ int main(int argc, char const *argv[]) {
     }
     return 0;
 }
+
+// Combintation code adapted from J Carruthers
 
 std::unordered_set<std::string> get_combos(std::string letters, int r) {
     int i, n;
