@@ -116,9 +116,10 @@ for file in dog:
         rm = []
         for i in range(0, N):
             rm += [''.join(the_matrix[i * N: (i + 1) * N])]
-        # print(the_matrix)
         result = {}
         result["lengths"] = []
         result["grid"] = rm
         result["size"] = N
         print('"', file, '"', ":", rm)
+        with open('data.json', 'a') as outfile:
+            json.dump(result, outfile)
