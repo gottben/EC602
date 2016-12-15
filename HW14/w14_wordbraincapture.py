@@ -35,6 +35,77 @@ the_alphabet = {"N": [24.0, 63.0, 103.0, 124.0, 135.0, 121.0, 80.0, 36.0],
                 "H": [43.0, 45.0, 45.0, 177.0, 193.0, 45.0, 45.0, 45.0],
                 "R": [154.0, 99.0, 46.0, 83.0, 146.0, 49.0, 53.0, 56.0]}
 
+
+def LettWordCount(sorted_edge_values, boxes_height):
+    letters, btwn_box, spaces, words = 0, 0, 0, 1
+    lets_in_word = []
+
+    if ((boxes_height >= 250) and (boxes_height <= 270)) or (boxes_height >=
+                                                             390):
+        for pixel in range(0, len(sorted_edge_values) - 1):
+            if (sorted_edge_values[pixel] + 1) != sorted_edge_values[pixel +
+                                                                     1]:
+                diff = sorted_edge_values[pixel + 1] - \
+                    (sorted_edge_values[pixel] + 1)
+                if diff >= 110 and diff <= 120:
+                    letters += 1
+                elif diff >= 9 and diff <= 20:
+                    btwn_box += 1
+                elif diff > 130:
+                    spaces += 1
+                    lets_in_word.append(letters)
+                    letters = 0
+                    words += 1
+        lets_in_word.append(letters)
+    else:
+        for pixel in range(0, len(sorted_edge_values) - 1):   # 3x3 and 4x4
+            if (sorted_edge_values[pixel] + 1) != sorted_edge_values[pixel +
+                                                                     1]:
+                diff = sorted_edge_values[pixel + 1] - \
+                    (sorted_edge_values[pixel] + 1)
+                if diff >= 130 and diff <= 160:
+                    letters += 1
+                elif diff >= 10 and diff <= 16:
+                    btwn_box += 1
+                elif diff > 170:
+                    spaces += 1
+                    lets_in_word.append(letters)
+                    letters = 0
+                    words += 1
+        lets_in_word.append(letters)
+    return letters, spaces, words, lets_in_word
+
+
+def one_row(mid, boxes, left, right):
+    box_edges = img[(1920 + mid):(1920 + (mid + 30)), (0 + left):(0 + right)]
+    edge_color = np.where(box_edges == [50, 130, 198])
+    sorted_edge_values = sorted(set(edge_color[1]))
+    return sorted_edge_values, boxes
+
+
+def two_rows(top, bottom, mid, left, right):
+    row_1 = img[1920 + (top + 40):(1920 + (top + 45)), (0 + left):(0 + right)]
+    row_2 = img[1920 + (mid + 40):(1920 + (mid + 45)), (0 + left):(0 + right)]
+    edge_1 = np.where(row_1 == [50, 130, 198])
+    edge_2 = np.where(row_2 == [50, 130, 198])
+    sorted_edge_1 = sorted(set(edge_1[1]))
+    sorted_edge_2 = sorted(set(edge_2[1]))
+    return sorted_edge_1, sorted_edge_2
+
+
+def three_rows(top, bottom, mid, left, right):
+    row_1 = img[1920 + (top + 40):(1920 + (top + 55)), (0 + left):(0 + right)]
+    row_2 = img[1920 + (mid + 30):(1920 + (mid + 45)), (0 + left):(0 + right)]
+    row_3 = img[1920 + (mid + 90):(1920 + (mid + 95)), (0 + left):(0 + right)]
+    edge_1 = np.where(row_1 == [50, 130, 198])
+    edge_2 = np.where(row_2 == [50, 130, 198])
+    edge_3 = np.where(row_3 == [50, 130, 198])
+    sorted_edge_1 = sorted(set(edge_1[1]))
+    sorted_edge_2 = sorted(set(edge_2[1]))
+    sorted_edge_3 = sorted(set(edge_3[1]))
+    return sorted_edge_1, sorted_edge_2, sorted_edge_3
+
+
 total_dict = {}
 
 directory = "."
@@ -110,11 +181,67 @@ for file in dog:
                     values += [diff.mean()]
                 the_matrix += keys[values.index(min(values))]
 
+        box_area = img[1920:2440]
+        index = np.where(box_area == [50, 130, 198])
+
+        left = min(list(index[1])) - 2
+        right = max(list(index[1])) + 2
+
+        top = min(list(index[0]))
+        bottom = max(list(index[0]))
+        boxes_height = bottom - top
+
+        mid = int((bottom + top) / 2)
+        boxes = img[(1920 + top):(1920 + bottom), (0 + left):(0 + right)]
+
+        if boxes_height <= 180:     # single row for 3x3
+            # call 3x3 single row function
+            sorted_edge_values, boxes = one_row(mid, boxes, left, right)
+            letters, spaces, words, lets_in_word = \
+                LettWordCount(sorted_edge_values, boxes_height)
+            total_ls = lets_in_word
+            print(lets_in_word)
+        elif (boxes_height >= 310) and (boxes_height <= 330):   # 4x4 2 rows
+            # call 4x4 function
+            sorted_edge_1, sorted_edge_2 = two_rows(top, bottom, mid, left,
+                                                    right)
+            letters, spaces, words, lets_in_word = LettWordCount(sorted_edge_1,
+                                                                 boxes_height)
+            ls = lets_in_word
+            letters, spaces, words, lets_in_word = LettWordCount(sorted_edge_2,
+                                                                 boxes_height)
+            total_ls = ls + lets_in_word
+            print(total_ls)
+        elif (boxes_height >= 250) and (boxes_height <= 270):    # 5x5 2 rows
+            # call 5x5 function
+            sorted_edge_1, sorted_edge_2 = two_rows(top, bottom, mid, left,
+                                                    right)
+            letters, spaces, words, lets_in_word = LettWordCount(sorted_edge_1,
+                                                                 boxes_height)
+            ls = lets_in_word
+            letters, spaces, words, lets_in_word = LettWordCount(sorted_edge_2,
+                                                                 boxes_height)
+            total_ls = ls + lets_in_word
+            print(total_ls)
+        elif (boxes_height >= 390):    # 5x5 3 rows
+            sorted_edge_1, sorted_edge_2, sorted_edge_3 = \
+                three_rows(top, bottom, mid, left, right)
+            letters, spaces, words, lets_in_word = LettWordCount(sorted_edge_1,
+                                                                 boxes_height)
+            ls = lets_in_word
+            letters, spaces, words, lets_in_word = LettWordCount(sorted_edge_2,
+                                                                 boxes_height)
+            ls = ls + lets_in_word
+            letters, spaces, words, lets_in_word = LettWordCount(sorted_edge_3,
+                                                                 boxes_height)
+            total_ls = ls + lets_in_word
+            print(total_ls)
+
         rm = []
         for i in range(0, N):
             rm += [''.join(the_matrix[i * N: (i + 1) * N])]
         result = {}
-        result["lengths"] = []
+        result["lengths"] = total_ls
         result["grid"] = rm
         result["size"] = N
         print('"', file, '"', ":", rm)
