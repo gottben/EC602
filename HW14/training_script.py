@@ -93,7 +93,7 @@ train_dict = {3: {"train3_1.png": ["EDI", "NBL", "RAS"],
 
 total_dict = {}
 
-directory = "./train_files2"
+directory = "./train_files3"
 dog = listdir(directory)
 dog.sort()
 for file in dog:
@@ -111,7 +111,7 @@ for file in dog:
             N = 3               # array size
             M1 = 387
             M2 = 1660
-            D = 270
+            D = 50
             F = 2
         elif index[1][0] == 358:
             N = 4
@@ -124,7 +124,7 @@ for file in dog:
             row = 304
             colu = 308
             F = 2
-            D = 145  # 120  # 100
+            D = 28  # 120  # 100
         elif index[1][0] == 348:
             N = 5
             M1 = 348
@@ -136,7 +136,7 @@ for file in dog:
             row = 228
             colu = 228
             F = 2
-            D = 95  # 130  # 100
+            D = 18  # 130  # 100
 
         data = img[569:1910, M1:M2]
         data[data < 170] = 0
@@ -152,10 +152,10 @@ for file in dog:
                                 np.min(indices[1]): np.max(indices[1])]
 
                 pix_c = np.array([])
-                for t in range(0, 5):  # 5):   # F * N):
-                    R = letter[t * (len(letter) // (5)):    # (F * N)): (5)):
-                               (t + 1) * (len(letter) // (5))]    # (F * N))]
-                    L = np.count_nonzero(R) // (5 * D)    # (N * D)
+                for t in range(0, 8):  # 5):   # F * N):
+                    R = letter[t * (len(letter) // (8)):    # (F * N)): (5)):
+                               (t + 1) * (len(letter) // (8))]    # (F * N))]
+                    L = np.count_nonzero(R) // (8 * D)    # (N * D)
                     pix_c = np.append(pix_c, L)
                 pix_c = pix_c ** 2
                 if N not in total_dict:

@@ -10,6 +10,27 @@ import sys
 the_dict = {}
 other_dict = {}
 
+
+def word_search(letters, index, indices, word, s_pos, length, start_i, w_arr):
+        word += letters[start_i]
+        if len(word) == length:
+            w_arr += [word]
+            print(w_arr)
+        for i in indices:
+            if i in index:
+                index = np.delete(index, np.where(index == i))
+        # print(index)
+        for i in range(0, len(index)):
+            index = np.where(s_pos[i] == 1)[0]
+            indices += [start_i]
+            if len(w_arr) == (length*length):
+                # print(len(w_arr), (length*length))
+                break
+            if i == (len(index) - 1):
+                indices = []
+            word_search(letters, index, indices, word, s_pos, length, i, w_arr)
+
+
 with open(sys.argv[1]) as f:
     for line in f:
         N = len(line) - 1
@@ -37,19 +58,28 @@ with open('puzzles.txt') as data_file:
     for line in data_file:
         data.append(json.loads(line))
 
-three_matrix = np.array([[0, 1, 0, 1, 1, 0, 0, 0, 0],
-                         [1, 0, 1, 1, 1, 1, 0, 0, 0],
-                         [0, 1, 0, 0, 1, 1, 0, 0, 0],
-                         [1, 1, 0, 0, 1, 0, 1, 1, 0],
-                         [1, 1, 1, 1, 0, 1, 1, 1, 1],
-                         [0, 1, 1, 0, 1, 0, 0, 1, 1],
-                         [0, 0, 0, 1, 1, 0, 0, 1, 0],
-                         [0, 0, 0, 1, 1, 1, 1, 0, 1],
-                         [0, 0, 0, 0, 1, 1, 0, 1, 0]])
-
-
+position_dict = {3: np.array([[0, 1, 0, 1, 1, 0, 0, 0, 0],
+                              [1, 0, 1, 1, 1, 1, 0, 0, 0],
+                              [0, 1, 0, 0, 1, 1, 0, 0, 0],
+                              [1, 1, 0, 0, 1, 0, 1, 1, 0],
+                              [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                              [0, 1, 1, 0, 1, 0, 0, 1, 1],
+                              [0, 0, 0, 1, 1, 0, 0, 1, 0],
+                              [0, 0, 0, 1, 1, 1, 1, 0, 1],
+                              [0, 0, 0, 0, 1, 1, 0, 1, 0]])}
 
 for game in data:
     N = game["size"]
     word_lengths = game["lengths"]
-    for length in word_lengths:
+    for y in range(0, N * N):
+        letters = ''.join(game["grid"])
+        start = letters[y]
+        s_pos = position_dict[N]
+        index = np.where(s_pos[y] == 1)[0]
+        for length in word_lengths:
+            word_array = []
+            indices = [y]
+            if len(letters) == length:
+                stop = 1
+                break
+            word_search(letters, index, indices, word, s_pos, length, y, word_array)
