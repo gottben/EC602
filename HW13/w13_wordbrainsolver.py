@@ -14,11 +14,11 @@ for sz in [3, 4, 5]:
     neighbors[sz] = dict()
     for c in range(0, sz):
         for r in range(0, sz):
-            neighbors[sz][str(c)+str(r)] = list()
+            neighbors[sz][(c, r)] = list()
             for co, ro in neighbor_offsets:
                 if(c+co < sz and c+co >= 0):
                     if(r+ro < sz and r+ro >= 0):
-                        neighbors[sz][str(c) + str(r)].append([c + co, r + ro])
+                        neighbors[sz][(c, r)].append([c + co, r + ro])
 
 
 def solve(grid, words, lengths, wordlist):
@@ -53,7 +53,7 @@ solutions = []
 
 def spell2(grid, word, letter_list, col, row):
     try:
-        if len(letter_list) == 1 and letter_list[0] == grid[col][row]:
+        if len(letter_list) == 1:
             modified_grid = [col[:] for col in grid]
             modified_grid[col][row] = " "
             if word not in spellings:
@@ -61,8 +61,8 @@ def spell2(grid, word, letter_list, col, row):
             modified_grid = collapse(modified_grid)
             if modified_grid not in spellings[word]:
                 spellings[word].append(modified_grid)
-        elif grid[col][row] == letter_list[0]:
-            for neighbor in my_neighbors[str(col)+str(row)]:
+        else:
+            for neighbor in my_neighbors[(col, row)]:
                 if neighbor[0] < len(grid):
                     if neighbor[1] < len(grid[neighbor[0]]):
                         if (grid[neighbor[0]][neighbor[1]] == letter_list[1]):
