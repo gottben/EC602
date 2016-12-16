@@ -1,6 +1,6 @@
 # AUTHOR BrianAppleton appleton@bu.edu
-# AUTHOR Alex Bennett gottbenn@bu.edu
-# AUTHOR Cathryn Callahan cathcal@bu.edu
+# AUTHOR AlexBennett gottbenn@bu.edu
+# AUTHOR CathrynCallahan cathcal@bu.edu
 
 import sys
 import json
@@ -52,7 +52,6 @@ solutions = []
 
 
 def spell2(grid, word, letter_list, col, row):
-
     try:
         if len(letter_list) == 1 and letter_list[0] == grid[col][row]:
             modified_grid = [col[:] for col in grid]
@@ -64,10 +63,13 @@ def spell2(grid, word, letter_list, col, row):
                 spellings[word].append(modified_grid)
         elif grid[col][row] == letter_list[0]:
             for neighbor in my_neighbors[str(col)+str(row)]:
-                modified_grid = [col[:] for col in grid]
-                modified_grid[col][row] = " "
-                spell2(modified_grid, word, letter_list[1:], neighbor[0],
-                       neighbor[1])
+                if neighbor[0] < len(grid):
+                    if neighbor[1] < len(grid[neighbor[0]]):
+                        if (grid[neighbor[0]][neighbor[1]] == letter_list[1]):
+                            modified_grid = [col[:] for col in grid]
+                            modified_grid[col][row] = " "
+                            spell2(modified_grid, word, letter_list[1:],
+                                   neighbor[0], neighbor[1])
     except:
         pass
 
